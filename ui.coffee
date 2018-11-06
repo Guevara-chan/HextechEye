@@ -41,16 +41,12 @@ class Stat
 				@champions if @champions.size
 
 	recommend: (bans, team, foes) ->
-		console.log team
-		console.log bans
-		console.log foes
 		# Primary setup.
 		recom = new Map()		
 		# Adding all recommended synergies.
 		for champ in team
 			recom.bump(synergy) for synergy in @champions.get(champ).allies
 		# Adding all recommended counters and removing nemesisi.
-		console.log foes
 		for champ in foes
 			recom.bump(nemesis) for nemesis in @champions.get(champ).nemesises
 			recom.bump(victim,-1) for victim in @champions.get(champ).victims
@@ -105,7 +101,7 @@ class UI
 
 	sync: () ->
 		# Initial definitions.
-		fetch	= (row_name, force) => val for sel in @in[row_name] when force or stub isnt val = unescape(sel.value)
+		fetch	= (row_name, force) => val for sel in @in[row_name] when stub isnt val = unescape(sel.value) or force
 		# Primary loop
 		for row, idx in row_names
 			# Loop setup.
@@ -116,12 +112,12 @@ class UI
 			# Correcting current rows.
 			for sel, pos in @in[row]
 				subpool			= new Map pool
-				(console.log(choice); subpool.delete(choice)) for choice, scan in fetch(row, true) when scan isnt pos
+				console.log fetch(row, true)
+				subpool.delete(choice) for choice, scan in fetch(row, true) when scan isnt pos
 				prev			= sel.value
 				sel.innerHTML	= [...subpool.values()].join ''
 				sel.value		= prev
 		# Finalization.
-		console.log ...(fetch(row) for row in row_names)
 		vals = @db.recommend ...(fetch(row) for row in row_names)
 		@out.innerHTML = (@name2option(champ) for champ from vals).join ''
 
