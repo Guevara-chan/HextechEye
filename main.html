@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>◢.HextechEye.◣</title>
+		<link rel="icon" href="res/divination.ico">
+		<script src="lib/coffeescript.js"></script>
+		<style>
+			@font-face {font-family: Roboto; src: url(res/3966.ttf)}
+			@font-face {font-family: Oswald; src: url(res/Oswald-Regular.ttf)}
+			@font-face {font-family: Crimson; src: url(res/crimsontext.ttf)}
+
+			a {text-decoration: none; font-style: italic; color: #DFFEFE; font-size: 15px;}
+			b {color: lime; border: 1px lime solid; font-family: Oswald; border-radius: 7px}
+			option {color:black; background: white;}
+
+			select:focus{outline: none; animation: shining .8s infinite;}
+			a:hover {text-shadow: 0px 0px 2px orange, 0 0 1em red; transition: .5s}
+
+			.centerer {position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);}
+			.group {border-radius: 2px; box-shadow: 0px 0px 5px darkslategray; margin: 0px 3px;}
+			.caption{font-family: Oswald; text-shadow: 0px 0px 3px gray; border-radius: 3px;}
+			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0px 0px 3px darkslategray; appearance: none; vertical-align: middle; }
+			.bar {text-shadow: 0px 0px 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px;}
+			.interlight {background: rgba(130, 130, 130, 0.05)}
+
+			@keyframes shining {
+  			0%   { border: 1px solid darkgray; }
+  			50% { border: 1px solid white; box-shadow: 0px 0px 5px white;}
+  			100%  { border: 1px solid darkgray; }
+  			}
+
+		</style>
+	</head>
+	<body style='margin:0; background: #0f0f0f -webkit-repeating-linear-gradient(top, transparent 0px, transparent 1px, rgba(0, 0, 0, 0.25)	1px, rgba(0, 0, 0, 0.25) 2px); -webkit-background-size: 100% 2px; overflow: hidden; user-select: none; -moz-user-select: none; -ms-user-select: none;'>
+
+		<center id="stub" class="centerer" style="color: coral; font-size: 65px; text-shadow: 0px 0px 7px lightsalmon;">..:Now loading:..</center>
+
+		<center id="ui" class="centerer" style="visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0px 0px 3px slategray;">
+			<div class="bar" style="margin-bottom: 2px">• [<a href="https://github.com/Guevara-chan/Unicide" target="_blank">HextechEye</a>]: League of Legends pick adviser v0.01 •</div>
+
+			<div style="background: repeating-linear-gradient(45deg, #60bc6d, #60bc6d 10px, #063812 10px, #063812 20px); animation: width 5s infinite; box-shadow: 0px 0px 5px green;">
+				<select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.85); font-style: italic; font-size: 16px; margin: 0px"></select>
+			</div>
+
+			<span class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></span>
+
+			<fieldset id="team" class="group" style="border-color: cyan; background-color:rgba(0,255,255,0.05)">
+				<legend class="caption" style="background:cyan;">⋮TEAM⋮</legend>
+			</fieldset>
+
+			<span class="interlight" style="color: crimson">⮤<span style="color: cyan">•</span>⮥</span>
+			<fieldset id="bans" class="group" style="border-color: crimson; background: rgba(220,20,60,0.05)">
+				<legend class="caption" style="background:crimson;">⋮BANLIST⋮</legend>
+			</fieldset>
+			<span class="interlight" style="color: crimson;">•<span style="color: coral">⇪</span>•</span>
+
+			<fieldset id="foes" class="group" style="border-color: coral; background: rgba(255,127,80,0.05)">
+				<legend class="caption" style="background:coral;">⋮FOES⋮</legend>
+			</fieldset>
+
+			<div class="bar" style="margin-top: 2px">• Developed in 2018 by [<a href="http://vk.com/guevara_chan" target="_blank">Victoria A. Guevara</a>] •</div>
+
+		</center>
+		<script type="text/coffeescript" src="./ui.coffee"></script>
+	</body>
+</html>
