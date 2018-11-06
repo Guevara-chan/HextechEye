@@ -13,7 +13,7 @@ class Stat
 		@ready = if @reload() then new Promise((resolve) -> resolve()) else @load()
 
 	url2doc: (path) ->
-		fetch('https://www.leagueofgraphs.com' + path)
+		fetch('//www.leagueofgraphs.com' + path)
 		.then (resp) -> resp.text()
 		.then (html) -> (new DOMParser).parseFromString(html, "text/html").documentElement
 
