@@ -13,9 +13,9 @@ class Stat
 		@ready = if @reload() then new Promise((resolve) -> resolve()) else @load()
 
 	url2doc: (path) ->
-		fetch('//www.leagueofgraphs.com' + path)
+		fetch("#{if process?.type then '' else 'http://cors.io/?'}http://www.leagueofgraphs.com" + path)
 		.then (resp) -> resp.text()
-		.then (html) -> (new DOMParser).parseFromString(html, "text/html").documentElement
+		.then (html) -> (new DOMParser).parseFromString(html, "text/html")#.documentElement
 
 	load: () ->
 		@url2doc("/ru/champions/counters").then ((doc) -> # Getting page itself to parse.
@@ -23,6 +23,7 @@ class Stat
 			@champions = new Map
 			# Main parsing loop.
 			for entry in doc.querySelector(".data_table").querySelectorAll("tr") when entry = entry.querySelector "td"
+				console.log entry
 				@champions.set entry.querySelector("img").getAttribute("title"), data={}# Adding champ to listing.
 				rec = await @url2doc entry.querySelector("a").getAttribute "href"		# Parsing recommendations page.
 				for table, idx in rec.querySelectorAll(".data_table.sortable_table")	# Parsing underlying tables.
@@ -112,7 +113,6 @@ class UI
 			# Correcting current rows.
 			for sel, pos in @in[row]
 				subpool			= new Map pool
-				console.log fetch(row, true)
 				subpool.delete(choice) for choice, scan in fetch(row, true) when scan isnt pos
 				prev			= sel.value
 				sel.innerHTML	= [...subpool.values()].join ''
