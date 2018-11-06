@@ -5,7 +5,7 @@ Map::bump	= (key, step = 1) -> @set key, (if (val = @get key)? then val + step e
 
 #.{ [Classes]
 class Stat
-	cache_key	= "LoL_stat"
+	cache_key	= "HextechEye_cache"
 	stamp_key	= cache_key + ":date"
 
 	# --Methods goes here.
