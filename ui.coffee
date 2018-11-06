@@ -101,7 +101,7 @@ class UI
 
 	sync: () ->
 		# Initial definitions.
-		fetch	= (row_name, force) => val for sel in @in[row_name] when stub isnt val = unescape(sel.value) or force
+		fetch	= (row_name, force) => val for sel in @in[row_name] when (stub isnt val = unescape(sel.value)) or force
 		# Primary loop
 		for row, idx in row_names
 			# Loop setup.
