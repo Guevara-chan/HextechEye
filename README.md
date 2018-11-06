@@ -12,4 +12,4 @@ Powered by [LeagueGraphs](http://www.leagueofgraphs.com) and [CoffeeScript v2](h
 __HextechEye__  was best tested with _Chrome 70_ and [Electron](https://electronjs.org/), which is used to develop it.
 
 # ⋮Brief sampling of nowadays meta⋮
-![image](https://user-images.githubusercontent.com/8768470/48089371-60bd2800-e215-11e8-88d1-645a239fe0cb.png)
+![image](https://user-images.githubusercontent.com/8768470/48095712-7be46380-e226-11e8-89e3-241fff9e4f5a.png)
