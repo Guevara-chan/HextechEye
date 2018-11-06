@@ -13,7 +13,7 @@ class Stat
 		@ready = if @reload() then new Promise((resolve) -> resolve()) else @load()
 
 	url2doc: (path) ->
-		fetch("#{if process?.type then '' else 'http://cors.io/?'}http://www.leagueofgraphs.com" + path)
+		fetch("#{if process?.type then '' else 'https://cors.io/?'}http://www.leagueofgraphs.com" + path)
 		.then (resp) -> resp.text()
 		.then (html) -> (new DOMParser).parseFromString(html, "text/html")#.documentElement
 
