@@ -25,9 +25,17 @@
 			.interlight {background: rgba(130, 130, 130, 0.05)}
 
 			@keyframes shining {
-  			0%   { border: 1px solid darkgray; }
-  			50% { border: 1px solid white; box-shadow: 0px 0px 5px white;}
-  			100%  { border: 1px solid darkgray; }
+  				0%   { border: 1px solid darkgray; }
+  				50% { border: 1px solid white; box-shadow: 0px 0px 5px white;}
+  				100%  { border: 1px solid darkgray; }
+  			}
+
+  			@-moz-document url-prefix() {
+  				@keyframes shining {
+  				0%   { border: 2px solid darkgray; }
+  				50% { border: 2px solid white; box-shadow: 0px 0px 5px white;}
+  				100%  { border: 2px solid darkgray; }
+  				}
   			}
 
 		</style>
