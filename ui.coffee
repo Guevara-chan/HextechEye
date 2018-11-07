@@ -52,8 +52,8 @@ class Stat
 			recom.bump(nemesis) for nemesis in @champions.get(champ).nemesises
 			recom.bump(victim,-1) for victim in @champions.get(champ).victims
 		# Removing impossible chars.
-		recom.delete(ban) for ban in bans
-		recom.delete(pick) for pick in team
+		for src in [bans, team, foes]
+			recom.delete(champ) for champ in src
 		# Finalizing.
 		[...recom].filter((x) -> x[1] > 0).sort((a, b) -> b[1] - a[1])[...15].map (sub) -> sub[0]
 		
