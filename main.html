@@ -31,7 +31,9 @@
   			}
 
   			@-moz-document url-prefix() {
-  				.selector {height: 23px;}
+  				.selector {height: 23px}
+  				.group {margin: 9px 3px 0px 3px; padding-top: 14px;}
+  				.caption {position:absolute; left: 50%; transform: translate(-50%, -120%);}
   			}
 
   			@supports (-ms-ime-align: auto) {
@@ -53,7 +55,7 @@
 			<span class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></span>
 
 			<fieldset id="team" class="group" style="border-color: cyan; box-shadow: 0px 0px 6px cyan; background-color:rgba(0,255,255,0.05)">
-				<legend class="caption" tyle="background:cyan; box-shadow: 0px 0px 4px cyan">⋮TEAM⋮</legend>
+				<legend class="caption" style="background:cyan; box-shadow: 0px 0px 4px cyan">⋮TEAM⋮</legend>
 			</fieldset>
 
 			<span class="interlight" style="color: crimson">⮤<span style="color: cyan">•</span>⮥</span>
