@@ -39,7 +39,6 @@ class Stat
 
 	reload: () ->
 		try 
-			return
 			if @stamp and (Date.now() - @stamp) / (24*60*60*1000) < 3
 				@json = @cache
 				@champions if @champions.size
