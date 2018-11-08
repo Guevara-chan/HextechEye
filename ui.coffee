@@ -22,14 +22,16 @@ class Stat
 			# Preinit.
 			@champions = new Map
 			# Main parsing loop.
-			for entry in doc.querySelector(".data_table").querySelectorAll("tr") when entry = entry.querySelector "td"
-				console.log entry
-				@champions.set entry.querySelector("img").getAttribute("title"), data={}# Adding champ to listing.
-				rec = await @url2doc entry.querySelector("a").getAttribute "href"		# Parsing recommendations page.
-				for table, idx in rec.querySelectorAll(".data_table.sortable_table")	# Parsing underlying tables.
-					data[['allies', 'victims', 'nemesises'][idx]] = 					# Parsing tables to three lists.
-						for entry in table.querySelectorAll "tr" when entry = entry.querySelector "img" # Check & parse.
-							entry.getAttribute "title"									# Register champ name.
+			rows = doc.querySelector(".data_table").querySelectorAll("tr")				 # Extarcting all table rows.
+			await Promise.all (for entry in rows when entry = entry.querySelector "td"	 # Parsing all non-empty omnes.
+				@champions.set entry.querySelector("img").getAttribute("title"), data={} # Adding champ to listing.
+				@url2doc(entry.querySelector("a").getAttribute "href").then ((rec) ->	 # Parsing recommendations page.
+					for table, idx in rec.querySelectorAll(".data_table.sortable_table") # Parsing underlying tables.
+						@[['allies', 'victims', 'nemesises'][idx]] = 					 # Parsing tables to 3 lists.
+							for entry in table.querySelectorAll "tr" when entry = entry.querySelector "img" # Checking.
+								entry.getAttribute "title"								 # Register champ name.
+				).bind data
+			)
 			# Storing data for later usage.
 			@cache = @json
 			@stamp = Date.now()
@@ -37,6 +39,7 @@ class Stat
 
 	reload: () ->
 		try 
+			return
 			if @stamp and (Date.now() - @stamp) / (24*60*60*1000) < 3
 				@json = @cache
 				@champions if @champions.size
