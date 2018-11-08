@@ -9,7 +9,7 @@ Powered by [LeagueGraphs](http://www.leagueofgraphs.com) and [CoffeeScript v2](h
 
 # ⋮Compatibility⋮
 __HextechEye__  was best tested with _Chrome 70_ and [Electron](https://electronjs.org/), which is used to develop it.  
-Support for _Edge_ and _Mozilla Firefox_ is mostly established, except for UI disambiguation.
+Support for _Edge_ and _Mozilla Firefox_ is mostly established, except for some UI disambiguation.
 
 # ⋮Brief sampling of nowadays meta⋮
 ![image](https://user-images.githubusercontent.com/8768470/48096083-5c9a0600-e227-11e8-8b67-ec39291d6247.png)
