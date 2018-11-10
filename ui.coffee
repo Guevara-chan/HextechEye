@@ -5,7 +5,7 @@ Map::bump	= (key, step = 1) -> @set key, (if (val = @get key)? then val + step e
 
 #.{ [Classes]
 class Stat
-	cache_key	= "HextechEye_cache"
+	cache_key	= "HextechEye_cache[0.02]"
 	stamp_key	= cache_key + ":date"
 
 	# --Methods goes here.
@@ -23,8 +23,9 @@ class Stat
 			@champions = new Map
 			# Main parsing loop.
 			rows = doc.querySelector(".data_table").querySelectorAll("tr")				 # Extarcting all table rows.
-			await Promise.all (for entry in rows when entry = entry.querySelector "td"	 # Parsing all non-empty omnes.
+			await Promise.all (for entry in rows when entry = entry.querySelector "td"	 # Parsing all non-empty entris.
 				@champions.set entry.querySelector("img").getAttribute("title"), data={} # Adding champ to listing.
+				data.roles = entry.querySelector("i").innerText.trim().split(", ")		 # Fetching recommended roles.
 				@url2doc(entry.querySelector("a").getAttribute "href").then ((rec) ->	 # Parsing recommendations page.
 					for table, idx in rec.querySelectorAll(".data_table.sortable_table") # Parsing underlying tables.
 						@[['allies', 'victims', 'nemesises'][idx]] = 					 # Parsing tables to 3 lists.
@@ -38,24 +39,33 @@ class Stat
 		).bind @
 
 	reload: () ->
-		try 
+		try
 			if @stamp and (Date.now() - @stamp) / (24*60*60*1000) < 3
 				@json = @cache
 				@champions if @champions.size
 
 	recommend: (bans, team, foes) ->
 		# Primary setup.
-		recom = new Map()		
+		recom = new Map()
+		cover = new Set()
 		# Adding all recommended synergies.
 		for champ in team
-			recom.bump(synergy) for synergy in @champions.get(champ).allies
+			champ = @champions.get champ
+			recom.bump(synergy)	for synergy in champ.allies
+			cover.add(role)		for role	in champ.roles
 		# Adding all recommended counters and removing nemesisi.
 		for champ in foes
-			recom.bump(nemesis) for nemesis in @champions.get(champ).nemesises
-			recom.bump(victim,-1) for victim in @champions.get(champ).victims
+			champ = @champions.get champ
+			recom.bump(nemesis)		for nemesis	in champ.nemesises
+			recom.bump(victim,-1)	for victim	in сhamp.victims
 		# Removing impossible chars.
 		for src in [bans, team, foes]
 			recom.delete(champ) for champ in src
+		# Bonus for role coverage.
+		for advice from recom
+			for role in @champions.get(name = advice[0]).roles when not cover.has role
+				recom.set name, advice[1] * 2
+				break				
 		# Finalizing.
 		[...recom].filter((x) -> x[1] > 0).sort((a, b) -> b[1] - a[1])[...15].map (sub) -> sub[0]
 		
@@ -70,7 +80,6 @@ class Stat
 class UI
 	stub		= "-----"
 	row_names	= ['bans', 'team', 'foes']
-
 
 	# --Methods goes here.
 	constructor: () ->
