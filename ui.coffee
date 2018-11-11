@@ -57,7 +57,7 @@ class Stat
 		for champ in foes
 			champ = @champions.get champ
 			recom.bump(nemesis)		for nemesis	in champ.nemesises
-			recom.bump(victim,-1)	for victim	in сhamp.victims
+			recom.bump(victim,-1)	for victim	in champ.victims
 		# Removing impossible chars.
 		for src in [bans, team, foes]
 			recom.delete(champ) for champ in src
