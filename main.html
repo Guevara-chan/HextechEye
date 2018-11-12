@@ -23,7 +23,7 @@
 			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0px 0px 3px darkslategray; appearance: none; vertical-align: middle; border: 1px solid darkgray; height: 24px}
 			.bar {text-shadow: 0px 0px 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px;}
 			.interlight {background: rgba(130, 130, 130, 0.05)}
-			.eraser {font-family: Oswald; font-size: 11px; position: absolute; cursor: pointer; width: 28px; left: calc(100% - 36px); border: white 1px solid; padding: 0px 2px; color: white; transform: translate(0%, 21px); border-right: 0px; border-bottom: 0px; opacity: 0.35; border-radius: 2px 0px 0px 0px; box-shadow: 0px 0px 5px}
+			.eraser {font-family: Oswald; font-size: 11px; position: absolute; cursor: pointer; width: 28px; left: calc(100% - 36px); border: white 1px solid; padding: 0px 2px; color: white; transform: translateY(21px); border-right: 0px; border-bottom: 0px; opacity: 0.35; border-radius: 2px 0px 0px 0px; box-shadow: 0px 0px 5px}
 
 			.eraser:hover {opacity: 0.9; box-shadow: -1px -1px 6px; transition: .5s; }
 
@@ -44,6 +44,7 @@
 
 		</style>
 	</head>
+
 	<body style='margin:0; background: #0f0f0f -webkit-repeating-linear-gradient(top, transparent 0px, transparent 1px, rgba(0, 0, 0, 0.25)	1px, rgba(0, 0, 0, 0.25) 2px); -webkit-background-size: 100% 2px; overflow: hidden; user-select: none; -moz-user-select: none; -ms-user-select: none;'>
 
 		<center id="stub" class="centerer" style="color: coral; font-size: 65px; text-shadow: 0px 0px 7px lightsalmon;">..:Now loading:..</center>
@@ -51,8 +52,11 @@
 		<center id="ui" class="centerer" style="visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0px 0px 3px slategray;">
 			<div class="bar" style="margin-bottom: 2px">• [<a href="https://github.com/Guevara-chan/HextechEye" target="_blank">HextechEye</a> ]: League of Legends pick advisor v0.02 •</div>
 
-			<div style="background: repeating-linear-gradient(45deg, #60bc6d, #60bc6d 10px, #063812 10px, #063812 20px); animation: width 5s infinite; box-shadow: 0px 0px 5px green;">
-				<select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.85); font-style: italic; font-size: 16px; margin: 0px"></select>
+			<div style="background: repeating-linear-gradient(45deg, #60bc6d, #60bc6d 10px, #063812 10px, #063812 20px); box-shadow: 0px 0px 5px green">
+
+				<span style="position:absolute; left: 25%; transform: translateX(-50%); display: flex; background: rgba(0, 0, 0, 0.4); border: 7px solid rgba(0, 0, 0, 0.8); border-top: 0px; border-bottom: 0px; padding-right: 4px" class="checker"><input type="checkbox" id="lanesort" style="height: 20px"/><label style="color: palegreen; font-family: Oswald; font-size: 14px; text-shadow: 0px 0px 3px black; line-height: 23px">Line priority</label></span>
+
+				<select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.85); font-style: italic; font-size: 16px; margin: 0px;"></select>
 			</div>
 
 			<span class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></span>

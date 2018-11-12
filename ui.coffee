@@ -1,3 +1,4 @@
+# ~League of Legends pick advisor.
 # ==Extnesion methods==
 Function::getter = (name, proc)	-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
 Function::setter = (name, proc)	-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
@@ -44,7 +45,8 @@ class Stat
 				@json = @cache
 				@champions if @champions.size
 
-	recommend: (bans, team, foes) ->
+	recommend: (bans, team, foes, lanesort = true) ->
+		console.log lanesort
 		# Primary setup.
 		recom = new Map()
 		cover = new Set()
@@ -61,11 +63,12 @@ class Stat
 		# Removing impossible chars.
 		for src in [bans, team, foes]
 			recom.delete(champ) for champ in src
-		# Bonus for role coverage.
-		for advice from recom
-			for role in @champions.get(name = advice[0]).roles when not cover.has role
-				recom.set name, advice[1] * 2
-				break				
+		# Bonus for role coverage (optional).
+		if lanesort
+			for advice from recom
+				for role in @champions.get(name = advice[0]).roles when not cover.has role
+					recom.set name, advice[1] * 2
+					break				
 		# Finalizing.
 		[...recom].filter((x) -> x[1] > 0).sort((a, b) -> b[1] - a[1])[...15].map (sub) -> sub[0]
 		
@@ -85,7 +88,7 @@ class UI
 	constructor: () ->
 		# Primary setup.
 		@db		= new Stat
-		@db.ready.then (-> @fill()).bind @
+		@db.ready.then (-> @init()).bind @
 		@out	= document.getElementById 'advisor'
 		@in		= {team: [], bans: [], foes: []}
 		# Error handlers setup.
@@ -94,7 +97,7 @@ class UI
 			alert "#{e.toString()} !\nLine №#{ln}[#{col}], #{new URL(url).pathname}"
 			return true
 
-	fill: () ->
+	init: () ->
 		# Initial setup.
 		rows	= (document.getElementById row for row in row_names)
 		ctable	= ['crimson', 'cyan', 'coral']
@@ -109,41 +112,47 @@ class UI
 			sel.addEventListener 'change', @sync.bind @
 			rows[factor].appendChild sel
 		# Erasers setup.
-		for row in [0..2]
+		for row, idx in row_names
 			eraser = document.createElement("span")
 			eraser.innerText = 'CLEAR'
 			eraser.setAttribute 'class', 'eraser'
-			eraser.style.color = eraser.style.borderColor = ctable[row]
-			eraser.addEventListener 'click', @clear.bind @, row_names[row]
-			rows[row].appendChild eraser
+			eraser.style.color = eraser.style.borderColor = ctable[idx]
+			eraser.addEventListener 'click', @clear.bind @, row
+			rows[idx].appendChild eraser
+		# Additional controls.
+		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @sync.bind @
 		# Finalization.
-		@sync()
+		@refill()
 		document.getElementById('stub').style.visibility = 'hidden'
 		document.getElementById('ui').style.visibility = 'visible'
 
 	clear: (row_name) ->
 		(sel.value = stub) for sel in @in[row_name]
-		@sync()
+		@refill()
 
-	sync: () ->
-		# Initial definitions.
-		fetch	= (row_name, force) => val for sel in @in[row_name] when (stub isnt val = unescape(sel.value)) or force
+	fetch: (row_name, force) ->
+		val for sel in @in[row_name] when (stub isnt val = unescape(sel.value)) or force
+
+	refill: () ->
 		# Primary loop
 		for row, idx in row_names
 			# Loop setup.
 			pool = new Map @cache
 			# Deleting entries from opposing rows.
 			for counter, cidx in row_names when cidx isnt idx
-				pool.delete(excl) for excl in fetch counter
+				pool.delete(excl) for excl in @fetch counter
 			# Correcting current rows.
 			for sel, pos in @in[row]
 				subpool			= new Map pool
-				subpool.delete(choice) for choice, scan in fetch(row, true) when scan isnt pos
+				subpool.delete(choice) for choice, scan in @fetch(row, true) when scan isnt pos
 				prev			= sel.value
 				sel.innerHTML	= [...subpool.values()].join ''
 				sel.value		= prev
 		# Finalization.
-		vals = @db.recommend ...(fetch(row) for row in row_names)
+		@sync()
+
+	sync: () ->
+		vals = @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 		@out.innerHTML = (@name2option(champ) for champ from vals).join ''
 
 	name2option: (name = stub) ->
