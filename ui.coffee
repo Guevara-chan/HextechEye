@@ -86,7 +86,7 @@ class UI
 		# Primary setup.
 		@db		= new Stat
 		@db.ready.then (-> @fill()).bind @
-		@out	= document.getElementById "advisor"
+		@out	= document.getElementById 'advisor'
 		@in		= {team: [], bans: [], foes: []}
 		# Error handlers setup.
 		window.onerror = (msg, url, ln, col, e) ->
@@ -97,20 +97,33 @@ class UI
 	fill: () ->
 		# Initial setup.
 		rows	= (document.getElementById row for row in row_names)
+		ctable	= ['crimson', 'cyan', 'coral']
 		@cache	= new Map([['',@name2option()]].concat([name,@name2option(name)] for name from @db.champions.keys()))
 		# Rows filling.
 		for idx in [2..20] # 4 team slots, 10 ban slots, 5 foe slots.
-			sel = document.createElement("select")
+			sel = document.createElement('select')
 			@in[row_names[factor = idx % 4 % 3]].push sel
-			sel.setAttribute "class", "selector"
+			sel.setAttribute 'class', 'selector'
 			sel.innerHTML	= @name2option()
-			sel.style.color	= ["crimson", "cyan", "coral"][factor]
+			sel.style.color	= ctable[factor]
 			sel.addEventListener 'change', @sync.bind @
 			rows[factor].appendChild sel
+		# Erasers setup.
+		for row in [0..2]
+			eraser = document.createElement("span")
+			eraser.innerText = 'CLEAR'
+			eraser.setAttribute 'class', 'eraser'
+			eraser.style.color = eraser.style.borderColor = ctable[row]
+			eraser.addEventListener 'click', @clear.bind @, row_names[row]
+			rows[row].appendChild eraser
 		# Finalization.
 		@sync()
 		document.getElementById('stub').style.visibility = 'hidden'
 		document.getElementById('ui').style.visibility = 'visible'
+
+	clear: (row_name) ->
+		(sel.value = stub) for sel in @in[row_name]
+		@sync()
 
 	sync: () ->
 		# Initial definitions.

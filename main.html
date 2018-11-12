@@ -23,6 +23,9 @@
 			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0px 0px 3px darkslategray; appearance: none; vertical-align: middle; border: 1px solid darkgray; height: 24px}
 			.bar {text-shadow: 0px 0px 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px;}
 			.interlight {background: rgba(130, 130, 130, 0.05)}
+			.eraser {font-family: Oswald; font-size: 11px; position: absolute; cursor: pointer; width: 28px; left: calc(100% - 36px); border: white 1px solid; padding: 0px 2px; color: white; transform: translate(0%, 21px); border-right: 0px; border-bottom: 0px; opacity: 0.4; border-radius: 2px 0px 0px 0px; box-shadow: 0px 0px 5px}
+
+			.eraser:hover {opacity: 0.90; box-shadow: 0px 0px 6px; transition: .5s; }
 
 			@keyframes shining {
   				0%   { border: 1px solid darkgray; }
@@ -53,7 +56,6 @@
 			</div>
 
 			<span class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></span>
-
 			<fieldset id="team" class="group" style="border-color: cyan; box-shadow: 0px 0px 6px cyan; background-color:rgba(0,255,255,0.05)">
 				<legend class="caption" style="background:cyan; box-shadow: 0px 0px 4px cyan">⋮TEAM⋮</legend>
 			</fieldset>
@@ -62,8 +64,8 @@
 			<fieldset id="bans" class="group" style="border-color: crimson; box-shadow: 0px 0px 6px crimson; background: rgba(220,20,60,0.05)">
 				<legend class="caption" style="background:crimson; box-shadow: 0px 0px 4px crimson">⋮BANLIST⋮</legend>
 			</fieldset>
-			<span class="interlight" style="color: crimson;">•<span style="color: coral">⇪</span>•</span>
 
+			<span class="interlight" style="color: crimson;">•<span style="color: coral">⇪</span>•</span>
 			<fieldset id="foes" class="group" style="border-color: coral; box-shadow: 0px 0px 6px coral; background: rgba(255,127,80,0.05)">
 				<legend class="caption" style="background:coral; box-shadow: 0px 0px 4px coral;">⋮FOES⋮</legend>
 			</fieldset>
