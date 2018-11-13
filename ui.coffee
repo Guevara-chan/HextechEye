@@ -46,7 +46,6 @@ class Stat
 				@champions if @champions.size
 
 	recommend: (bans, team, foes, lanesort = true) ->
-		console.log lanesort
 		# Primary setup.
 		recom = new Map()
 		cover = new Set()
@@ -109,7 +108,7 @@ class UI
 			sel.setAttribute 'class', 'selector'
 			sel.innerHTML	= @name2option()
 			sel.style.color	= ctable[factor]
-			sel.addEventListener 'change', @sync.bind @
+			sel.addEventListener 'change', @refill.bind @
 			rows[factor].appendChild sel
 		# Erasers setup.
 		for row, idx in row_names
@@ -120,7 +119,7 @@ class UI
 			eraser.addEventListener 'click', @clear.bind @, row
 			rows[idx].appendChild eraser
 		# Additional controls.
-		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @refill.bind @
+		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @sync.bind @
 		# Finalization.
 		@refill()
 		document.getElementById('stub').style.visibility = 'hidden'
