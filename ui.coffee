@@ -120,7 +120,7 @@ class UI
 			eraser.addEventListener 'click', @clear.bind @, row
 			rows[idx].appendChild eraser
 		# Additional controls.
-		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @sync.bind @
+		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @refill.bind @
 		# Finalization.
 		@refill()
 		document.getElementById('stub').style.visibility = 'hidden'
