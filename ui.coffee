@@ -3,6 +3,10 @@
 Function::getter = (name, proc)	-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
 Function::setter = (name, proc)	-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
 Map::bump	= (key, step = 1) -> @set key, (if (val = @get key)? then val + step else 1)
+Function::new_branch = (name, body) -> @getter name, -> new BranchProxy @, body
+BranchProxy = (root, body) -> # Auxilary proc for new_branch.
+	Object.setPrototypeOf (new Proxy body, 
+		{get: (self, key) -> if typeof (val = self[key]) is 'function' then val.bind(self) else val}), root
 
 #.{ [Classes]
 class Stat
@@ -90,6 +94,9 @@ class UI
 		@db.ready.then (-> @init()).bind @
 		@out	= document.getElementById 'advisor'
 		@in		= {team: [], bans: [], foes: []}
+		# Additional setup.
+		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sort
+		document.getElementById('clear_all').addEventListener 'click', @on.clear.bind @, null
 		# Error handlers setup.
 		window.onerror = (msg, url, ln, col, e) ->
 			console.error e
@@ -108,26 +115,25 @@ class UI
 			sel.setAttribute 'class', 'selector'
 			sel.innerHTML	= @name2option()
 			sel.style.color	= ctable[factor]
-			sel.addEventListener 'change', @refill.bind @
+			sel.addEventListener 'change', @on.change
 			rows[factor].appendChild sel
 		# Erasers setup.
 		for row, idx in row_names
 			eraser = document.createElement("span")
 			eraser.innerText = 'CLEAR'
-			eraser.setAttribute 'class', 'eraser'
+			eraser.setAttribute 'class', 'eraser flat_btn'
 			eraser.style.color = eraser.style.borderColor = ctable[idx]
-			eraser.addEventListener 'click', @clear.bind @, row
+			eraser.addEventListener 'click', @on.clear.bind @, row
 			rows[idx].appendChild eraser
-		# Additional controls.
-		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @sync.bind @
 		# Finalization.
-		@refill()
+		@on.change()
 		document.getElementById('stub').style.visibility = 'hidden'
 		document.getElementById('ui').style.visibility = 'visible'
 
-	clear: (row_name) ->
-		(sel.value = stub) for sel in @in[row_name]
-		@refill()
+	reset: (row_name) ->
+		console.log (if row_name then [row_name] else row_names)
+		for row in (if row_name then [row_name] else row_names)
+			(sel.value = stub) for sel in @in[row]
 
 	fetch: (row_name, force) ->
 		val for sel in @in[row_name] when (stub isnt val = unescape(sel.value)) or force
@@ -147,15 +153,19 @@ class UI
 				prev			= sel.value
 				sel.innerHTML	= [...subpool.values()].join ''
 				sel.value		= prev
-		# Finalization.
-		@sync()
 
 	sync: () ->
 		vals = @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 		@out.innerHTML = (@name2option(champ) for champ from vals).join ''
 
 	name2option: (name = stub) ->
-		"<option value='#{escape(name)}'>#{name}</option>"				
+		"<option value='#{escape(name)}'>#{name}</option>"
+
+	# --Branching goes here.
+	@new_branch 'on',
+		change:		() -> @refill(); @sync();				@
+		sort:		() -> @sync();							@
+		clear:		(target) -> @reset(target); @change();	@
 #.} [Classes]
 
 # ==Main code==
