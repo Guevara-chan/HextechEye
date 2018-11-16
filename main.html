@@ -14,17 +14,15 @@
 			b {color: lime; border: 1px lime solid; font-family: Oswald; border-radius: 7px}
 			option {color:black; background: white;}
 
-			input[type="checkbox"] {}
-
 			select:focus{outline: none; animation: shining .8s infinite;}
 			a:hover {text-shadow: 0px 0px 2px orange, 0 0 1em red; transition: .5s}
 
 			.centerer {position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);}
 			.group {border-radius: 2px; margin: 0px 3px;}
-			.caption{font-family: Oswald; text-shadow: 0px 0px 3px gray; border-radius: 3px;}
+			.caption{font-family: Oswald; text-shadow: 0px 0px 3px gray; border-radius: 3px; cursor: default;}
 			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0px 0px 3px darkslategray; appearance: none; vertical-align: middle; border: 1px solid darkgray; height: 24px}
-			.bar {text-shadow: 0px 0px 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px;}
-			.interlight {background: rgba(130, 130, 130, 0.05)}
+			.bar {text-shadow: 0px 0px 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px; cursor: default;}
+			.interlight {background: rgba(130, 130, 130, 0.05); cursor: default;}
 			.flat_btn {font-family: Oswald; font-size: 11px; cursor: pointer; border: white 1px solid;}
 			.eraser {position: absolute; width: 28px; left: calc(100% - 36px); padding: 0px 2px; transform: translateY(21px); border-right: 0px; border-bottom: 0px; border-radius: 2px 0px 0px 0px; box-shadow: 0px 0px 5px; opacity: 0.35;}
 			.main_btn {color: #002000; border-color: #002000; opacity: 0.9; background: rgba(0, 110, 0, 0.8); border-radius: 2px; padding: 0px 2px; height: 15px; text-shadow: 0px 0px 4px greenyellow; box-shadow: 0px 0px 2px;}
@@ -32,7 +30,7 @@
 
 			.flat_btn:hover { transition: .5s;}
 			.main_btn:hover {opacity: 1; box-shadow: 0px 0px 10px; color: yellowgreen; border-color: yellowgreen; text-shadow: 0px 0px 2px green; background: rgba(0, 80, 0, 0.8)}
-			.eraser:hover {opacity: 0.9; box-shadow: -1px -1px 6px;}
+			.eraser:hover {opacity: 0.95; box-shadow: -1px -1px 6px;}
 
 			@keyframes shining {
   				0%   { border: 1px solid darkgray; }
@@ -56,14 +54,14 @@
 
 		<center id="stub" class="centerer" style="color: coral; font-size: 65px; text-shadow: 0px 0px 7px lightsalmon;">..:Now loading:..</center>
 
-		<center id="ui" class="centerer" style="visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0px 0px 3px slategray;">
+		<center id="ui" class="centerer" style="backface-visibility: hidden; visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0px 0px 3px slategray;">
 			<div class="bar" style="margin-bottom: 2px">• [<a href="https://github.com/Guevara-chan/HextechEye" target="_blank">HextechEye</a> ]: League of Legends pick advisor v0.02 •</div>
 
 			<div style="background: repeating-linear-gradient(45deg, #60bc6d, #60bc6d 10px, #063812 10px, #063812 20px); box-shadow: 0px 0px 5px green;">
 
 				<span class="erosion" style="position:absolute; left: 20%; transform: translateX(-50%); padding-right: 4px;" class="checker">
 					<input type="checkbox" id="lanesort" style="height: 19px; "/>
-					<label style="color: greenyellow; font-family: Oswald; font-size: 13px; text-shadow: 0px 0px 3px black; line-height: 24px;">⋮LANE PRIORITY⋮</label>
+					<label style="color: greenyellow; font-family: Oswald; font-size: 13px; text-shadow: 0px 0px 3px black; line-height: 24px; opacity: 0.85">⋮LANE PRIORITY⋮</label>
 				</span>
 
 				<span class="erosion" style="position: absolute; right: 20%; transform: translateX(50%); padding: 0px 2px;">
