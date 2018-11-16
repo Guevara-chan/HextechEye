@@ -12,4 +12,4 @@ __HextechEye__  was best tested with _Chrome 70_ and [Electron](https://electron
 Support for _Edge_ and _Mozilla Firefox_ is mostly established, except for some UI disambiguation.
 
 # ⋮Brief sampling of nowadays meta⋮
-![image](https://user-images.githubusercontent.com/8768470/48345375-ee22d100-e688-11e8-85c6-e8e11a098399.png)
+![image](https://user-images.githubusercontent.com/8768470/48645180-f450de80-e9f5-11e8-89d5-73b55f4801b3.png)
