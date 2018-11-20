@@ -5,6 +5,7 @@
 		<title>◢.HextechEye.◣</title>
 		<link rel="icon" href="res/divination.ico">
 		<script src="lib/coffeescript.js"></script>
+		<link rel="stylesheet" href="src/tt.css">
 		<style>
 			@font-face {font-family: Roboto; src: url(res/3966.ttf)}
 			@font-face {font-family: Oswald; src: url(res/Oswald-Regular.ttf)}
@@ -68,15 +69,15 @@
 
 				<span class="erosion" style="position:absolute; left: 20%; transform: translateX(-50%);" class="checker">
 					<input type="checkbox" id="lanesort" style="height: 19px; "/>
-					<label for="lanesort" style="color: greenyellow; font-family: Oswald; font-size: 13px; text-shadow: 0 0 3px black; line-height: 24px; opacity: 0.85;  cursor: pointer">⋮LANE PRIORITY⋮</label>
+					<label for="lanesort" style="color: greenyellow; font-family: Oswald; font-size: 13px; text-shadow: 0 0 3px black; line-height: 24px; opacity: 0.85; cursor: pointer">⋮LANE PRIORITY⋮</label>
 				</span>
 
 				<span class="erosion" style="position: absolute; right: 20%; transform: translateX(50%);">
-					<span id="clear_all" class="flat_btn main_btn" style="">CLEAR:ALL</span>
+					<span id="clear_all"class="flat_btn main_btn" style="">CLEAR:ALL</span>
 				</span>
 
 				<span class="erosion" style="display: inline-block; padding: 0">
-					<select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0;"></select>
+					<span tooltip="Hello !" flow="up"><select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0;"></select></span>
 				</span>
 			</div>
 
@@ -98,6 +99,6 @@
 			<div class="bar" style="margin-top: 2px">• Developed in 2018 by [<a href="http://vk.com/guevara_chan" target="_blank">Victoria A. Guevara</a> </span>] •</div>
 
 		</center>
-		<script type="text/coffeescript" src="./ui.coffee"></script>
+		<script type="text/coffeescript" src="src/ui.coffee"></script>
 	</body>
 </html>
