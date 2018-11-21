@@ -1,5 +1,3 @@
-div {background: red;}
-
 /* START TOOLTIP STYLES */
 [tooltip] {
   position: relative; /* opinion 1 */
@@ -135,6 +133,8 @@ div {background: red;}
   }
 }
 
+@keyframes noop {}
+
 /* FX All The Things */ 
 [tooltip]:not([flow]):hover::before,
 [tooltip]:not([flow]):hover::after,
@@ -142,12 +142,12 @@ div {background: red;}
 [tooltip][flow^="up"]:hover::after,
 [tooltip][flow^="down"]:hover::before,
 [tooltip][flow^="down"]:hover::after {
-  animation: tooltips-vert 300ms ease-out forwards;
+  animation: tooltips-vert 300ms ease-out forwards; animation-delay: 2s
 }
 
 [tooltip][flow^="left"]:hover::before,
 [tooltip][flow^="left"]:hover::after,
 [tooltip][flow^="right"]:hover::before,
 [tooltip][flow^="right"]:hover::after {
-  animation: tooltips-horz 300ms ease-out forwards;
+  animation: tooltips-horz 300ms ease-out forwards; animation-delay: 2s
 }

@@ -99,7 +99,7 @@ class UI
 		@out	= document.getElementById 'advisor'
 		@in		= {team: [], bans: [], foes: []}
 		# Additional setup.
-		@out.addEventListener 'change', @on.overtake
+		@out.addEventListener 'change', @on.overtouch
 		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sort
 		document.getElementById('clear_all').addEventListener 'click', @on.clear.bind @, null
 		# Error handlers setup.
@@ -118,11 +118,13 @@ class UI
 			sel = document.createElement('select')
 			@in[row_names[factor = idx % 4 % 3]].push sel
 			sel.setAttribute 'class', 'selector'
-			sel.setAttribute 'flow', 'up'
 			sel.innerHTML	= @name2option()
 			sel.style.color	= ctable[factor]
 			sel.addEventListener 'change', @on.change
-			rows[factor].appendChild sel
+			wrap = document.createElement('div')
+			wrap.style.display = "inline-block"
+			wrap.appendChild sel
+			rows[factor].appendChild wrap
 		# Erasers setup.
 		for row, idx in row_names
 			eraser = document.createElement("span")
@@ -159,6 +161,7 @@ class UI
 				prev			= sel.value
 				sel.innerHTML	= [...subpool.values()].join ''
 				sel.value		= prev
+				#@desc sel
 
 	sync: () ->
 		vals = @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
@@ -174,8 +177,8 @@ class UI
 	# --Branching goes here.
 	@new_branch 'on',
 		change:	()		-> @refill(); @sort();			@
-		sort:	()		-> @sync();	@overtake();		@
-		overtake: ()	-> @desc();						@
+		sort:	()		-> @sync();	@overtouch();		@
+		overtouch: ()	-> @desc();						@
 		clear:	(target)-> @reset(target); @change();	@
 #.} [Classes]
 

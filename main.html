@@ -30,7 +30,7 @@
 			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0 0 3px darkslategray; appearance: none; vertical-align: middle; border: 1px solid darkgray; height: 24px}
 			.bar {text-shadow: 0 0 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px; cursor: default;}
 			.interlight {background: rgba(130, 130, 130, 0.05); cursor: default; transition: .2s}
-			.flat_btn {font-family: Oswald; font-size: 11px; cursor: pointer; border: white 1px solid;}
+			.flat_btn {font-family: Oswald; font-size: 11px; cursor: pointer; border: white 1px solid; display: inline-block;}
 			.eraser {position: absolute; width: 28px; left: calc(100% - 36px); padding: 0 2px; transform: translateY(21px); border-right: 0; border-bottom: 0; border-radius: 2px 0 0 0; box-shadow: 0 0 5px; opacity: 0.35;}
 			.main_btn {color: #002000; border-color: #002000; opacity: 0.9; background: rgba(0, 110, 0, 0.8); border-radius: 2px; padding: 0 2px; height: 15px; text-shadow: 0 0 4px greenyellow; box-shadow: 0 0 2px;}
 			.erosion {height: 24px; display: inline-block; border: 7px solid rgba(0, 0, 0, 0.8); border-top: 0; border-bottom: 0; box-shadow: 0 0 4px; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.5); padding: 0 3px;}
@@ -67,18 +67,18 @@
 
 			<div style="background: repeating-linear-gradient(45deg, #60bc6d, #60bc6d 10px, #063812 10px, #063812 20px); box-shadow: 0 0 5px green;">
 
-				<span class="erosion" style="position:absolute; left: 20%; transform: translateX(-50%);" class="checker">
+				<div class="erosion" style="position:absolute; left: 20%; transform: translateX(-50%);" class="checker">
 					<input type="checkbox" id="lanesort" style="height: 19px; "/>
 					<label for="lanesort" style="color: greenyellow; font-family: Oswald; font-size: 13px; text-shadow: 0 0 3px black; line-height: 24px; opacity: 0.85; cursor: pointer">⋮LANE PRIORITY⋮</label>
-				</span>
+				</div>
 
-				<span class="erosion" style="position: absolute; right: 20%; transform: translateX(50%);">
-					<span id="clear_all"class="flat_btn main_btn" style="">CLEAR:ALL</span>
-				</span>
+				<div class="erosion" style="position: absolute; right: 20%; transform: translateX(50%);">
+					<div id="clear_all" class="flat_btn main_btn" style="">CLEAR:ALL</div>
+				</div>
 
-				<span class="erosion" style="display: inline-block; padding: 0">
-					<span tooltip="Hello !" flow="up"><select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0;"></select></span>
-				</span>
+				<div class="erosion" style="display: inline-block; padding: 0">
+					<div tooltip="Hello !" flow="up"><select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0;"></select></div>
+				</div>
 			</div>
 
 			<span class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></span>
@@ -96,7 +96,7 @@
 				<legend class="caption" style="background:coral; box-shadow-color: coral;">⋮FOES⋮</legend>
 			</fieldset>
 
-			<div class="bar" style="margin-top: 2px">• Developed in 2018 by [<a href="http://vk.com/guevara_chan" target="_blank">Victoria A. Guevara</a> </span>] •</div>
+			<div class="bar" style="margin-top: 2px">• Developed in 2018 by [<a href="http://vk.com/guevara_chan" target="_blank">Victoria A. Guevara</a> ] •</div>
 
 		</center>
 		<script type="text/coffeescript" src="src/ui.coffee"></script>
