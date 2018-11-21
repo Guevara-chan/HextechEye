@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<title>◢.HextechEye.◣</title>
 		<link rel="icon" href="res/divination.ico">
-		<script src="lib/coffeescript.js"></script>
-		<link rel="stylesheet" href="src/tt.css">
+        <link rel="stylesheet" href="src/tt.css">
+		<script src="lib/coffeescript.js"></script>		
 		<style>
 			@font-face {font-family: Roboto; src: url(res/3966.ttf)}
 			@font-face {font-family: Oswald; src: url(res/Oswald-Regular.ttf)}
@@ -24,8 +24,8 @@
 			input[type=checkbox]:checked + label:before {color: lawngreen; border-color: green;}
 			input[type=checkbox]:hover + label:before {background: green;}
 
-            .centerer {display:flex; position:absolute; top:0; bottom:0; right:0; left:0;}
-			.block {margin:auto; width: 50%;}
+            .centerer {display: flex; position: absolute; top: 0; bottom: 0; right: 0; left: 0;}
+			.block {margin: auto; width: 50%;}
 			.group {border-radius: 2px; margin: 0 3px; box-shadow: 0 0 6px}
 			.caption{font-family: Oswald; text-shadow: 0 0 3px gray; border-radius: 3px; cursor: default;}
 			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0 0 3px darkslategray; appearance: none; vertical-align: middle; border: 1px solid darkgray; height: 24px}
@@ -36,14 +36,14 @@
 			.main_btn {color: #002000; border-color: #002000; opacity: 0.9; background: rgba(0, 110, 0, 0.8); border-radius: 2px; padding: 0 2px; height: 15px; text-shadow: 0 0 4px greenyellow; box-shadow: 0 0 2px;}
 			.erosion {height: 24px; display: inline-block; border: 7px solid rgba(0, 0, 0, 0.8); border-top: 0; border-bottom: 0; box-shadow: 0 0 4px; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.5); padding: 0 3px;}
 
-			.flat_btn:hover { transition: .5s;}
+			.flat_btn:hover {transition: .5s;}
 			.main_btn:hover {opacity: 1; box-shadow: 0 0 10px; color: yellowgreen; border-color: yellowgreen; text-shadow: 0 0 2px green; background: rgba(0, 80, 0, 0.8)}
 			.eraser:hover {opacity: 0.9; box-shadow: -1px -1px 6px;}
 
 			@keyframes shining {
-  				0%   { border: 1px solid darkgray; }
-  				50% { border: 1px solid white; box-shadow: 0 0 5px white;}
-  				100%  { border: 1px solid darkgray; }
+  				0%    {border: 1px solid darkgray;}
+  				50%   {border: 1px solid white; box-shadow: 0 0 5px white;}
+  				100%  {border: 1px solid darkgray;}
   			}
 
   			@-moz-document url-prefix() {
@@ -62,30 +62,30 @@
 	<body style='margin:0; background: #0f0f0f -webkit-repeating-linear-gradient(top, transparent 0, transparent 1px, rgba(0, 0, 0, 0.25)	1px, rgba(0, 0, 0, 0.25) 2px); -webkit-background-size: 100% 2px; overflow: hidden; user-select: none; -moz-user-select: none; -ms-user-select: none;'>
 
         <div class="centerer">
-		<center id="stub" class="block" style="color: coral; font-size: 65px; text-shadow: 0 0 7px lightsalmon;">..:Now loading:..</center>
+		<center id="stub" class="block" style="color: coral; font-size: 65px; text-shadow: 0 0 7px lightsalmon">..:Now loading:..</center>
         </div>
 
         <div class="centerer">
-		<center id="ui" class="block" style="visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0 0 3px slategray;">
+		<center id="ui" class="block" style="visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0 0 3px slategray">
 			<div class="bar" style="margin-bottom: 2px">• [<a href="https://github.com/Guevara-chan/HextechEye" target="_blank">HextechEye</a> ]: League of Legends pick advisor v0.02 •</div>
 
 			<div style="background: repeating-linear-gradient(45deg, #60bc6d, #60bc6d 10px, #063812 10px, #063812 20px); box-shadow: 0 0 5px green;">
 
-				<div class="erosion" style="position:absolute; left: 35%; transform: translateX(-50%);" class="checker">
+				<div class="erosion" style="position:absolute; left: 35%; transform: translateX(-50%)">
 					<input type="checkbox" id="lanesort" style="height: 19px; "/>
 					<label for="lanesort" style="color: greenyellow; font-family: Oswald; font-size: 13px; text-shadow: 0 0 3px black; line-height: 24px; opacity: 0.85; cursor: pointer">⋮LANE PRIORITY⋮</label>
 				</div>
 
-				<div class="erosion" style="position: absolute; right: 35%; transform: translateX(50%);">
+				<div class="erosion" style="position: absolute; right: 35%; transform: translateX(-50%)">
 					<div id="clear_all" class="flat_btn main_btn" style="">CLEAR:ALL</div>
 				</div>
 
 				<div class="erosion" style="display: inline-block; padding: 0">
-					<div><select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0;"></select></div>
+					<div><select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0"></select></div>
 				</div>
 			</div>
 
-			<div class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></div>
+			<div class="interlight" style="color: cyan"><span style="color: lime">⮃</span></div>
 			<fieldset id="team" class="group" style="border-color: cyan; box-shadow: 0 0 6px cyan; background-color:rgba(0,255,255,0.05)">
 				<legend class="caption" style="background:cyan; box-shadow-color: cyan">⋮TEAM⋮</legend>
 			</fieldset>
@@ -95,9 +95,9 @@
 				<legend class="caption" style="background:crimson; box-shadow-color: crimson">⋮BANLIST⋮</legend>
 			</fieldset>
 
-			<div class="interlight" style="color: crimson;">•<span style="color: coral">⇪</span>•</div>
+			<div class="interlight" style="color: crimson">•<span style="color: coral">⇪</span>•</div>
 			<fieldset id="foes" class="group" style="border-color: coral; box-shadow: 0 0 6px coral; background: rgba(255,127,80,0.05)">
-				<legend class="caption" style="background:coral; box-shadow-color: coral;">⋮FOES⋮</legend>
+				<legend class="caption" style="background:coral; box-shadow-color: coral">⋮FOES⋮</legend>
 			</fieldset>
 
 			<div class="bar" style="margin-top: 2px">• Developed in 2018 by [<a href="http://vk.com/guevara_chan" target="_blank">Victoria A. Guevara</a> ] •</div>
