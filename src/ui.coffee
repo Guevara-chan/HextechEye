@@ -98,6 +98,7 @@ class UI
 		@db.ready.then (-> @init()).bind @
 		@out	= document.getElementById 'advisor'
 		@in		= {team: [], bans: [], foes: []}
+		#setInterval (-> console.log document.getElementById('ui').style.top = 10), 100
 		# Additional setup.
 		@out.addEventListener 'change', @on.overtouch
 		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sort
@@ -123,11 +124,12 @@ class UI
 			sel.addEventListener 'change', @on.change
 			wrap = document.createElement('div')
 			wrap.style.display = "inline-block"
+			#wrap.style.transform = "translateZ(0)"
 			wrap.appendChild sel
 			rows[factor].appendChild wrap
 		# Erasers setup.
 		for row, idx in row_names
-			eraser = document.createElement("span")
+			eraser = document.createElement("div")
 			eraser.innerText = 'CLEAR'
 			eraser.setAttribute 'class', 'eraser flat_btn'
 			eraser.style.color = eraser.style.borderColor = ctable[idx]
@@ -161,7 +163,7 @@ class UI
 				prev			= sel.value
 				sel.innerHTML	= [...subpool.values()].join ''
 				sel.value		= prev
-				#@desc sel
+				@desc sel
 
 	sync: () ->
 		vals = @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
