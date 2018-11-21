@@ -124,7 +124,6 @@ class UI
 			sel.addEventListener 'change', @on.change
 			wrap = document.createElement('div')
 			wrap.style.display = "inline-block"
-			#wrap.style.transform = "translateZ(0)"
 			wrap.appendChild sel
 			rows[factor].appendChild wrap
 		# Erasers setup.
