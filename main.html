@@ -24,14 +24,15 @@
 			input[type=checkbox]:checked + label:before {color: lawngreen; border-color: green;}
 			input[type=checkbox]:hover + label:before {background: green;}
 
-			.centerer {position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);}
+            .centerer {display:flex; position:absolute; top:0; bottom:0; right:0; left:0;}
+			.block {margin:auto; width: 50%;}
 			.group {border-radius: 2px; margin: 0 3px; box-shadow: 0 0 6px}
 			.caption{font-family: Oswald; text-shadow: 0 0 3px gray; border-radius: 3px; cursor: default;}
 			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0 0 3px darkslategray; appearance: none; vertical-align: middle; border: 1px solid darkgray; height: 24px}
 			.bar {text-shadow: 0 0 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px; cursor: default;}
 			.interlight {background: rgba(130, 130, 130, 0.05); cursor: default; display: inline-block;}
 			.flat_btn {font-family: Oswald; font-size: 11px; cursor: pointer; border: white 1px solid; display: inline-block;}
-			.eraser {position: absolute; width: 28px; left: calc(100% - 36px); padding: 0 2px; transform: translateY(21px); border-right: 0; border-bottom: 0; border-radius: 2px 0 0 0; box-shadow: 0 0 5px; opacity: 0.35;}
+			.eraser {position: absolute; width: 28px; left: calc(75% - 36px); padding: 0 2px; transform: translateY(21px); border-right: 0; border-bottom: 0; border-radius: 2px 0 0 0; box-shadow: 0 0 5px; opacity: 0.35;}
 			.main_btn {color: #002000; border-color: #002000; opacity: 0.9; background: rgba(0, 110, 0, 0.8); border-radius: 2px; padding: 0 2px; height: 15px; text-shadow: 0 0 4px greenyellow; box-shadow: 0 0 2px;}
 			.erosion {height: 24px; display: inline-block; border: 7px solid rgba(0, 0, 0, 0.8); border-top: 0; border-bottom: 0; box-shadow: 0 0 4px; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.5); padding: 0 3px;}
 
@@ -60,38 +61,41 @@
 
 	<body style='margin:0; background: #0f0f0f -webkit-repeating-linear-gradient(top, transparent 0, transparent 1px, rgba(0, 0, 0, 0.25)	1px, rgba(0, 0, 0, 0.25) 2px); -webkit-background-size: 100% 2px; overflow: hidden; user-select: none; -moz-user-select: none; -ms-user-select: none;'>
 
-		<center id="stub" class="centerer" style="color: coral; font-size: 65px; text-shadow: 0 0 7px lightsalmon;">..:Now loading:..</center>
+        <div class="centerer">
+		<center id="stub" class="block" style="color: coral; font-size: 65px; text-shadow: 0 0 7px lightsalmon;">..:Now loading:..</center>
+        </div>
 
-		<center id="ui" class="centerer" style="visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0 0 3px slategray;">
+        <div class="centerer">
+		<center id="ui" class="block" style="visibility: hidden; border: 1px solid rgba(255, 255, 255, 0.4); background: rgba(255, 255, 255, 0.04); box-shadow: 0 0 3px slategray;">
 			<div class="bar" style="margin-bottom: 2px">• [<a href="https://github.com/Guevara-chan/HextechEye" target="_blank">HextechEye</a> ]: League of Legends pick advisor v0.02 •</div>
 
 			<div style="background: repeating-linear-gradient(45deg, #60bc6d, #60bc6d 10px, #063812 10px, #063812 20px); box-shadow: 0 0 5px green;">
 
-				<div class="erosion" style="position:absolute; left: 20%; transform: translateX(-50%);" class="checker">
+				<div class="erosion" style="position:absolute; left: 35%; transform: translateX(-50%);" class="checker">
 					<input type="checkbox" id="lanesort" style="height: 19px; "/>
 					<label for="lanesort" style="color: greenyellow; font-family: Oswald; font-size: 13px; text-shadow: 0 0 3px black; line-height: 24px; opacity: 0.85; cursor: pointer">⋮LANE PRIORITY⋮</label>
 				</div>
 
-				<div class="erosion" style="position: absolute; right: 20%; transform: translateX(50%);">
+				<div class="erosion" style="position: absolute; right: 35%; transform: translateX(50%);">
 					<div id="clear_all" class="flat_btn main_btn" style="">CLEAR:ALL</div>
 				</div>
 
 				<div class="erosion" style="display: inline-block; padding: 0">
-					<div tooltip="Hello !"><select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0;"></select></div>
+					<div tooltip="Hello !" style="transform: rotate(0.01deg)"><select class="selector" id='advisor' style="color:lime; background: rgba(0, 0, 0, 0.75); font-style: italic; font-size: 16px; margin: 0;"></select></div>
 				</div>
 			</div>
 
-			<span class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></span>
+			<div class="interlight" style="color: cyan; "><span style="color: lime">⮃</span></div>
 			<fieldset id="team" class="group" style="border-color: cyan; box-shadow: 0 0 6px cyan; background-color:rgba(0,255,255,0.05)">
 				<legend class="caption" style="background:cyan; box-shadow-color: cyan">⋮TEAM⋮</legend>
 			</fieldset>
 
-			<span class="interlight" style="color: crimson">⮤<span style="color: cyan">•</span>⮥</span>
+			<div class="interlight" style="color: crimson">⮤<span style="color: cyan">•</span>⮥</div>
 			<fieldset id="bans" class="group" style="border-color: crimson; box-shadow: 0 0 6px crimson; background: rgba(220,20,60,0.05)">
 				<legend class="caption" style="background:crimson; box-shadow-color: crimson">⋮BANLIST⋮</legend>
 			</fieldset>
 
-			<span class="interlight" style="color: crimson;">•<span style="color: coral">⇪</span>•</span>
+			<div class="interlight" style="color: crimson;">•<span style="color: coral">⇪</span>•</div>
 			<fieldset id="foes" class="group" style="border-color: coral; box-shadow: 0 0 6px coral; background: rgba(255,127,80,0.05)">
 				<legend class="caption" style="background:coral; box-shadow-color: coral;">⋮FOES⋮</legend>
 			</fieldset>
@@ -99,6 +103,7 @@
 			<div class="bar" style="margin-top: 2px">• Developed in 2018 by [<a href="http://vk.com/guevara_chan" target="_blank">Victoria A. Guevara</a> ] •</div>
 
 		</center>
+        </div>
 		<script type="text/coffeescript" src="src/ui.coffee"></script>
 	</body>
 </html>
