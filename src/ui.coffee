@@ -87,6 +87,19 @@ class Stat
 	@getter 'json', ()		-> JSON.stringify [...@champions]
 	@setter 'json', (val)	-> @champions = new Map JSON.parse val
 # -------------------- #
+class CSV extends Array
+	mark = "[HTE]"
+
+	# --Methods goes here.
+	constructor: (feed...) ->
+		accum = []
+		for chunk in feed
+			if chunk.length then accum = accum.concat [...chunk] else accum.push chunk
+		super ...accum
+
+	toString: () ->
+		[mark].concat(@).join ", "
+# -------------------- #
 class UI
 	stub		= "-----"
 	row_names	= ['bans', 'team', 'foes']
@@ -98,7 +111,6 @@ class UI
 		@db.ready.then (-> @init()).bind @
 		@out	= document.getElementById 'advisor'
 		@in		= {team: [], bans: [], foes: []}
-		#setInterval (-> console.log document.getElementById('ui').style.top = 10), 100
 		# Additional setup.
 		@out.addEventListener 'change', @on.overtouch
 		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sort
@@ -164,10 +176,6 @@ class UI
 				sel.value		= prev
 				@desc sel
 
-	sync: () ->
-		vals = @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
-		@out.innerHTML = (@name2option(champ) for champ in vals).join ''
-		@out.value = if vals.length then escape(vals[0]) else ""
 
 	name2option: (name = stub) ->
 		"<option value='#{escape(name)}'>#{name}</option>"
@@ -177,10 +185,19 @@ class UI
 
 	# --Branching goes here.
 	@new_branch 'on',
-		change:	()		-> @refill(); @sort();			@
-		sort:	()		-> @sync();	@overtouch();		@
-		overtouch: ()	-> @desc();						@
-		clear:	(target)-> @reset(target); @change();	@
+		change:		() -> @refill(); @sort();					@
+		sort:		() -> @advices = @prognosis; @overtouch();	@
+		overtouch:	() -> @desc();								@
+		clear:	(target)-> @reset(target); @change();			@
+
+	# --Properties goes here.
+	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
+	@getter 'advices', ()		-> (opt.innerText for opt from @out.options)
+	@setter 'advices', (val)	-> 
+		@out.innerHTML = (@name2option(champ) for champ in val).join ''
+		@out.value = if val.length then escape(val[0]) else ""
+	@getter 'csv', ()			->
+		new CSV fetch(@in.team, 1), fetch(@in.foes, 1), fetch(@in.bans, 1)
 #.} [Classes]
 
 # ==Main code==
