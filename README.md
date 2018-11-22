@@ -4,7 +4,7 @@ Powered by [LeagueGraphs](http://www.leagueofgraphs.com) and [CoffeeScript v2](h
 
 # ⋮Featuræ⋮
 * Pure frontend webscraping for latest match statistics.
-* Cyberpunk-inspired minimalistic UI layout.
+* PS2-inspired minimalistic UI layout.
 * Mostly [Codepen](http://codepen.io)-ready.
 
 # ⋮Compatibility⋮
