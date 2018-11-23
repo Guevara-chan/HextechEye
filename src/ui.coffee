@@ -94,7 +94,7 @@ class CSV extends Array
 	constructor: (feed...) ->
 		accum = []
 		for chunk in feed
-			if chunk.length then accum = accum.concat [...chunk] else accum.push chunk
+			if Array.isArray chunk then accum = accum.concat [...chunk] else accum.push chunk
 		super ...accum
 
 	toString: () ->
@@ -115,6 +115,7 @@ class UI
 		@out.addEventListener 'change', @on.overtouch
 		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sync
 		document.getElementById('clear_all').addEventListener 'click', @on.clear.bind @, null
+		document.getElementById('copy').addEventListener 'click', @on.copy
 		# Error handlers setup.
 		window.onerror = (msg, url, ln, col, e) ->
 			console.error e
@@ -175,7 +176,6 @@ class UI
 				sel.value		= prev
 				@desc sel
 
-
 	name2option: (name = stub) ->
 		"<option value='#{escape(name)}'>#{name}</option>"
 
@@ -187,7 +187,8 @@ class UI
 		change:		() -> @refill(); @sync();					@
 		sync:		() -> @advices = @prognosis; @overtouch();	@
 		overtouch:	() -> @desc();								@
-		clear:	(target)-> @reset(target); @change();			@
+		clear:	(line) -> @reset(target); @change();			@
+		copy:		() -> @clip = @csv;							@ 
 
 	# --Properties goes here.
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
@@ -196,7 +197,8 @@ class UI
 		@out.innerHTML = (@name2option(champ) for champ in val).join ''
 		@out.value = if val.length then escape(val[0]) else ""
 	@getter 'csv', ()			->
-		new CSV fetch(@in.team, 1), fetch(@in.foes, 1), fetch(@in.bans, 1)
+		new CSV ...(["[#{line}]", @fetch(line, 1)] for line in ['team', 'foes', 'bans']), '[adv]', @advices
+	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
 #.} [Classes]
 
 # ==Main code==

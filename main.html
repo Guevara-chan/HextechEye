@@ -33,7 +33,7 @@
 			.interlight {background: rgba(130, 130, 130, 0.05); cursor: default; display: inline-block;}
 			.flat_btn {font-family: Oswald; font-size: 11px; cursor: pointer; border: white 1px solid; display: inline-block; transition: .2s}
 			.eraser {position: absolute; width: 28px; left: calc(75% - 36px); padding: 0 2px; transform: translateY(21px); border-right: 0; border-bottom: 0; border-radius: 2px 0 0 0; box-shadow: 0 0 5px; opacity: 0.35;}
-			.main_btn {color: #002000; border-color: #002000; opacity: 0.9; background: rgba(0, 110, 0, 0.8); border-radius: 2px; padding: 0 2px; height: 15px; text-shadow: 0 0 4px greenyellow; box-shadow: 0 0 2px;}
+			.main_btn {color: #002000; border-color: #002000; opacity: 0.9; background: rgba(0, 110, 0, 0.8); border-radius: 2px; padding: 0 2px; height: 15px; text-shadow: 0 0 4px greenyellow; box-shadow: 0 0 2px; margin: 0 1px;}
 			.erosion {height: 24px; display: inline-block; border: 7px solid rgba(0, 0, 0, 0.8); border-top: 0; border-bottom: 0; box-shadow: 0 0 4px; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.5); padding: 0 3px;}
 
 			.flat_btn:hover {transition: .5s;}
@@ -77,8 +77,9 @@
 				</div>
 
                 <div name="chrome_fix" style="position: absolute; width: 50%; left: 40%; display: flex">
-				    <div class="erosion" style="margin: auto">
+				    <div class="erosion" style="margin: auto; padding: 0 2px;">
 					   <div id="clear_all" class="flat_btn main_btn" style="">CLEAR:ALL</div>
+                       <div id="copy" class="flat_btn main_btn" style="">COPY</div>
 				    </div>
                 </div>
 
