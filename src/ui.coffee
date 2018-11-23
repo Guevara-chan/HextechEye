@@ -102,7 +102,6 @@ class CSV extends Array
 			else line.push chunk
 		accum.push line
 		super ...accum
-		console.log @
 
 	toString: () ->
 		"#{header}#{lf}" + @.map((line) => line.join "#{@delim} ").join lf
