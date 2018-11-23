@@ -88,7 +88,7 @@ class Stat
 	@setter 'json', (val)	-> @champions = new Map JSON.parse val
 # -------------------- #
 class CSV extends Array
-	mark = "[HTE]"
+	mark = "[HextechEye v0.02]"
 
 	# --Methods goes here.
 	constructor: (feed...) ->
