@@ -94,13 +94,18 @@ class CSV extends Array
 
 	# --Methods goes here.
 	constructor: (feed...) ->
-		accum = []
-		for chunk in feed
-			if Array.isArray chunk then accum = accum.concat [...chunk] else accum.push chunk
+		accum	= []
+		line	= []
+		for chunk in feed				
+			if Array.isArray chunk	then line = line.concat [...chunk]
+			else if not chunk?		then accum.push line; line = []
+			else line.push chunk
+		accum.push line
 		super ...accum
+		console.log @
 
 	toString: () ->
-		"#{header}#{lf}" + @.join "#{@delim} "
+		"#{header}#{lf}" + @.map((line) => line.join "#{@delim} ").join lf
 # -------------------- #
 class UI
 	stub		= "-----"
@@ -189,17 +194,19 @@ class UI
 		change:		() -> @refill(); @sync();					@
 		sync:		() -> @advices = @prognosis; @overtouch();	@
 		overtouch:	() -> @desc();								@
-		clear:	(line) -> @reset(target); @change();			@
+		clear:	(line) -> @reset target; @change();				@
 		copy:		() -> @clip = @csv;							@ 
 
 	# --Properties goes here.
-	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 	@getter 'advices', ()		-> (opt.innerText for opt from @out.options)
 	@setter 'advices', (val)	-> 
 		@out.innerHTML = (@name2option(champ) for champ in val).join ''
 		@out.value = if val.length then escape(val[0]) else ""
 	@getter 'csv', ()			->
-		new CSV ...(["[#{line}]", @fetch(line, 1)] for line in ['team', 'foes', 'bans']), '[adv]', @advices
+		accum = []
+		accum = accum.concat ["[#{line}]", @fetch(line, 1), null] for line in ['team', 'foes', 'bans']			
+		new CSV ...accum, '[best]', @advices
+	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
 #.} [Classes]
 
