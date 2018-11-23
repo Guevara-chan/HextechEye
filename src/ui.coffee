@@ -113,7 +113,7 @@ class UI
 		@in		= {team: [], bans: [], foes: []}
 		# Additional setup.
 		@out.addEventListener 'change', @on.overtouch
-		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sort
+		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sync
 		document.getElementById('clear_all').addEventListener 'click', @on.clear.bind @, null
 		# Error handlers setup.
 		window.onerror = (msg, url, ln, col, e) ->
@@ -152,7 +152,6 @@ class UI
 		document.getElementById('ui').style.visibility = 'visible'
 
 	reset: (row_name) ->
-		console.log (if row_name then [row_name] else row_names)
 		for row in (if row_name then [row_name] else row_names)
 			(sel.value = stub) for sel in @in[row]
 
@@ -185,8 +184,8 @@ class UI
 
 	# --Branching goes here.
 	@new_branch 'on',
-		change:		() -> @refill(); @sort();					@
-		sort:		() -> @advices = @prognosis; @overtouch();	@
+		change:		() -> @refill(); @sync();					@
+		sync:		() -> @advices = @prognosis; @overtouch();	@
 		overtouch:	() -> @desc();								@
 		clear:	(target)-> @reset(target); @change();			@
 
