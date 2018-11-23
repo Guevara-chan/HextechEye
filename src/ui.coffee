@@ -88,7 +88,9 @@ class Stat
 	@setter 'json', (val)	-> @champions = new Map JSON.parse val
 # -------------------- #
 class CSV extends Array
-	mark = "[HextechEye v0.02]"
+	header	= "[HextechEye v0.02]"
+	lf		= "\r\n"
+	delim: ","
 
 	# --Methods goes here.
 	constructor: (feed...) ->
@@ -98,7 +100,7 @@ class CSV extends Array
 		super ...accum
 
 	toString: () ->
-		[mark].concat(@).join ", "
+		"#{header}#{lf}" + @.join "#{@delim} "
 # -------------------- #
 class UI
 	stub		= "-----"
