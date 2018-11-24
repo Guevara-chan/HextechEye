@@ -193,7 +193,7 @@ class UI
 		change:		() -> @refill(); @sync();					@
 		sync:		() -> @advices = @prognosis; @overtouch();	@
 		overtouch:	() -> @desc();								@
-		clear:	(line) -> @reset target; @change();				@
+		clear:	(line) -> @reset line; @change();				@
 		copy:		() -> @clip = @csv;							@ 
 
 	# --Properties goes here.
