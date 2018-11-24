@@ -202,8 +202,7 @@ class UI
 		@out.innerHTML = (@name2option(champ) for champ in val).join ''
 		@out.value = if val.length then escape(val[0]) else ""
 	@getter 'csv', ()			->
-		accum = []
-		accum = accum.concat ["[#{line}]", @fetch(line, 1), null] for line in ['team', 'foes', 'bans']			
+		accum = (["[#{line}]", @fetch(line, 1), null] for line in ['team', 'foes', 'bans']).reduce (a, b) -> a.concat b
 		new CSV ...accum, '[best]', @advices
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
