@@ -89,8 +89,8 @@ class Stat
 # -------------------- #
 class CSV extends Array
 	header	= "[HextechEye v0.02]"
+	delim	= ","
 	lf		= "\r\n"
-	delim: ","
 
 	# --Methods goes here.
 	constructor: (feed...) ->
@@ -103,8 +103,12 @@ class CSV extends Array
 		accum.push line
 		super ...accum
 
+	@parse: (text) ->
+		throw new TypeError("invalid CSV data provided") unless (lines = text.split /\r?\n/)[0] is header
+		accum = lines[1..].map((line) -> line.split(delim).map (chunk) -> chunk.trim())
+		
 	toString: () ->
-		"#{header}#{lf}" + @.map((line) => line.join "#{@delim} ").join lf
+		"#{header}#{lf}" + @.map((line) => line.join "#{delim} ").join lf
 # -------------------- #
 class UI
 	stub		= "-----"
@@ -120,8 +124,8 @@ class UI
 		# Additional setup.
 		@out.addEventListener 'change', @on.overtouch
 		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sync
-		document.getElementById('clear_all').addEventListener 'click', @on.clear.bind @, null
-		document.getElementById('copy').addEventListener 'click', @on.copy
+		for proc, idx in [@on.copy, @on.paste, @on.clear.bind @, null]
+			document.getElementById(['copy', 'paste', 'clear_all'][idx]).addEventListener 'click', proc
 		# Error handlers setup.
 		window.onerror = (msg, url, ln, col, e) ->
 			console.error e
@@ -195,8 +199,11 @@ class UI
 		overtouch:	() -> @desc();								@
 		clear:	(line) -> @reset line; @change();				@
 		copy:		() -> @clip = @csv;							@ 
+		paste:		() -> @clip.then ((t) => @csv = t; sync()); @
 
 	# --Properties goes here.
+	@getter 'clip', ()			-> navigator.clipboard.readText()
+	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
 	@getter 'advices', ()		-> (opt.innerText for opt from @out.options)
 	@setter 'advices', (val)	-> 
 		@out.innerHTML = (@name2option(champ) for champ in val).join ''
@@ -204,8 +211,14 @@ class UI
 	@getter 'csv', ()			->
 		accum = (["[#{line}]", @fetch(line, 1), null] for line in ['team', 'foes', 'bans']).reduce (a, b) -> a.concat b
 		new CSV ...accum, '[best]', @advices
+	@setter 'csv', (val)		->
+		###################################
+		@reset()
+		for line, idx in CSV.parse(val)[0..2]
+			dest = @in[line[0][1..-2]]
+			dest[pos].value = escape(entry) for entry, pos in line[1..]				
+		###################################
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
-	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
 #.} [Classes]
 
 # ==Main code==
