@@ -212,12 +212,13 @@ class UI
 		accum = (["[#{line}]", @fetch(line, 1), null] for line in ['team', 'foes', 'bans']).reduce (a, b) -> a.concat b
 		new CSV ...accum, '[best]', @advices
 	@setter 'csv', (val)		->
-		###################################
-		@reset()
-		for line, idx in CSV.parse(val)[0..2]
-			dest = @in[line[0][1..-2]]
-			dest[pos].value = escape(entry) for entry, pos in line[1..]				
-		###################################
+		try
+			save = @csv
+			@reset()
+			for line, idx in CSV.parse(val)[0..2]
+				dest = @in[line[0][1..-2]]
+				dest[pos].value = escape(entry) for entry, pos in line[1..]
+		catch ex then @csv = save
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 #.} [Classes]
 
