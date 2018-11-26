@@ -186,6 +186,12 @@ class UI
 				sel.value		= prev
 				@desc sel
 
+	feed: (src) ->
+		@reset()
+		for line, idx in src
+			dest = @in[line[0][1..-2]]
+			dest[pos].value = escape(entry) for entry, pos in line[1..]
+
 	name2option: (name = stub) ->
 		"<option value='#{escape(name)}'>#{name}</option>"
 
@@ -211,14 +217,7 @@ class UI
 	@getter 'csv', ()			->
 		accum = (["[#{line}]", @fetch(line, 1), null] for line in ['team', 'foes', 'bans']).reduce (a, b) -> a.concat b
 		new CSV ...accum, '[best]', @advices
-	@setter 'csv', (val)		->
-		try
-			save = @csv
-			@reset()
-			for line, idx in CSV.parse(val)[0..2]
-				dest = @in[line[0][1..-2]]
-				dest[pos].value = escape(entry) for entry, pos in line[1..]
-		catch ex then @csv = save
+	@setter 'csv', (val)		-> try (save = @csv; @feed CSV.parse(val)[0..2]) catch ex then @csv = save
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 #.} [Classes]
 
