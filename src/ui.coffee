@@ -199,7 +199,7 @@ class UI
 		overtouch:	() -> @desc();								@
 		clear:	(line) -> @reset line; @change();				@
 		copy:		() -> @clip = @csv;							@ 
-		paste:		() -> @clip.then ((t) => @csv = t; sync()); @
+		paste:		() -> @clip.then ((t) => @csv = t; @sync());@
 
 	# --Properties goes here.
 	@getter 'clip', ()			-> navigator.clipboard.readText()
