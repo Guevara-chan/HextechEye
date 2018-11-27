@@ -210,7 +210,7 @@ class UI
 	@getter 'clip', ()			-> navigator.clipboard.readText()
 	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
 	@getter 'fields', ()		-> new Map([line, @fetch(line, 1)] for line in ['team', 'foes', 'bans'])
-	@setter 'fields', (val)		-> try (save = @csv; @feed val) catch ex then @csv = save
+	@setter 'fields', (val)		-> try (bak = @fields; @feed val) catch ex then @fields = bak
 	@getter 'advices', ()		-> (opt.innerText for opt from @out.options)
 	@setter 'advices', (val)	-> 
 		[@out.innerHTML, @out.value] = [val.map(@name2option).join(''), if val.length then escape(val[0]) else ""]
