@@ -1,9 +1,9 @@
 # ~League of Legends pick advisor.
 # ==Extnesion methods==
-Function::getter = (name, proc)	-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
-Function::setter = (name, proc)	-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
-Object::either	= (true_val, false_val = '') -> if @valueOf() then true_val else false_val
-Map::bump		= (key, step = 1) -> @set key, (if (val = @get key)? then val + step else 1)
+Function::getter	= (name, proc)	-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
+Function::setter	= (name, proc)	-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
+Map::bump		= (key, step = 1)	-> @set key, (if (val = @get key)? then val + step else 1)
+Array::compress	= ()				-> @reduce (accum, arr) -> accum.concat arr
 Function::new_branch = (name, body) -> @getter name, -> new BranchProxy @, body
 BranchProxy = (root, body) -> # Auxilary proc for new_branch.
 	Object.setPrototypeOf (new Proxy body, 
@@ -210,13 +210,13 @@ class UI
 	# --Properties goes here.
 	@getter 'clip', ()			-> navigator.clipboard.readText()
 	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
+	@getter 'fields', ()		-> new Map([line, @fetch(line, 1)] for line in ['team', 'foes', 'bans'])
 	@getter 'advices', ()		-> (opt.innerText for opt from @out.options)
 	@setter 'advices', (val)	-> 
 		@out.innerHTML = (@name2option(champ) for champ in val).join ''
 		@out.value = if val.length then escape(val[0]) else ""
 	@getter 'csv', ()			->
-		accum = (["[#{line}]", @fetch(line, 1), null] for line in ['team', 'foes', 'bans']).reduce (a, b) -> a.concat b
-		new CSV ...accum, '[best]', @advices
+		new CSV ...((["[#{line[0]}]", line[1], null] for line from @fields).compress()), '[best]', @advices
 	@setter 'csv', (val)		-> try (save = @csv; @feed CSV.parse(val)[0..2]) catch ex then @csv = save
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 #.} [Classes]
