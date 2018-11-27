@@ -213,8 +213,7 @@ class UI
 	@getter 'fields', ()		-> new Map([line, @fetch(line, 1)] for line in ['team', 'foes', 'bans'])
 	@getter 'advices', ()		-> (opt.innerText for opt from @out.options)
 	@setter 'advices', (val)	-> 
-		@out.innerHTML = (@name2option(champ) for champ in val).join ''
-		@out.value = if val.length then escape(val[0]) else ""
+		[@out.innerHTML, @out.value] = [val.map(@name2option).join(''), if val.length then escape(val[0]) else ""]
 	@getter 'csv', ()			->
 		new CSV ...((["[#{line[0]}]", line[1], null] for line from @fields).compress()), '[best]', @advices
 	@setter 'csv', (val)		-> try (save = @csv; @feed CSV.parse(val)[0..2]) catch ex then @csv = save
