@@ -90,7 +90,7 @@ class Stat
 class CSV extends Array
 	header	= "[HextechEye v0.02]"
 	delim	= ","
-	lf		= "\r\n"
+	lf:		"\r\n"
 
 	# --Methods goes here.
 	constructor: (feed...) ->
@@ -108,7 +108,7 @@ class CSV extends Array
 		new CSV().pop().concat lines[1..].map((line) -> line.split(delim).map (chunk) -> chunk.trim())
 		
 	toString: () ->
-		"#{header}#{lf}" + @.map((line) => line.join "#{delim} ").join lf
+		"#{header}#{@lf}" + @.map((line) => line.join "#{delim} ").join @lf
 # -------------------- #
 class UI
 	stub		= "-----"
