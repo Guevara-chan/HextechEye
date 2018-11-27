@@ -188,9 +188,8 @@ class UI
 
 	feed: (src) ->
 		@reset()
-		for line, idx in src
-			dest = @in[line[0][1..-2]]
-			dest[pos].value = escape(entry) for entry, pos in line[1..]
+		for name, line of @in
+			line[pos].value = escape(entry) for entry, pos in src.get name
 
 	name2option: (name = stub) ->
 		"<option value='#{escape(name)}'>#{name}</option>"
@@ -211,12 +210,13 @@ class UI
 	@getter 'clip', ()			-> navigator.clipboard.readText()
 	@setter 'clip', (val)		-> await navigator.clipboard.writeText val
 	@getter 'fields', ()		-> new Map([line, @fetch(line, 1)] for line in ['team', 'foes', 'bans'])
+	@setter 'fields', (val)		-> try (save = @csv; @feed val) catch ex then @csv = save
 	@getter 'advices', ()		-> (opt.innerText for opt from @out.options)
 	@setter 'advices', (val)	-> 
 		[@out.innerHTML, @out.value] = [val.map(@name2option).join(''), if val.length then escape(val[0]) else ""]
 	@getter 'csv', ()			->
 		new CSV ...((["[#{line[0]}]", line[1], null] for line from @fields).compress()), '[best]', @advices
-	@setter 'csv', (val)		-> try (save = @csv; @feed CSV.parse(val)[0..2]) catch ex then @csv = save
+	@setter 'csv', (val)		-> @fields = @feed new Map(CSV.parse(val)[0..2].map (arr) -> [arr[0][1..-2], arr[1..]])
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 #.} [Classes]
 
