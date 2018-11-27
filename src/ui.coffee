@@ -1,11 +1,11 @@
 # ~League of Legends pick advisor.
 # ==Extnesion methods==
-Function::getter	= (name, proc)	-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
-Function::setter	= (name, proc)	-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
+Function::getter= (name, proc)		-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
+Function::setter= (name, proc)		-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
 Map::bump		= (key, step = 1)	-> @set key, (if (val = @get key)? then val + step else 1)
 Array::compress	= ()				-> @reduce (accum, arr) -> accum.concat arr
 Function::new_branch = (name, body) -> @getter name, -> new BranchProxy @, body
-BranchProxy = (root, body) -> # Auxilary proc for new_branch.
+BranchProxy		= (root, body)		-> # Auxilary proc for new_branch.
 	Object.setPrototypeOf (new Proxy body, 
 		{get: (self, key) -> if typeof (val = self[key]) is 'function' then val.bind(self) else val}), root
 
