@@ -105,7 +105,7 @@ class CSV extends Array
 
 	@parse: (text) ->
 		throw new TypeError("invalid CSV data provided") unless (lines = text.split /\r?\n/)[0] is header
-		accum = lines[1..].map((line) -> line.split(delim).map (chunk) -> chunk.trim())
+		new CSV().pop().concat lines[1..].map((line) -> line.split(delim).map (chunk) -> chunk.trim())
 		
 	toString: () ->
 		"#{header}#{lf}" + @.map((line) => line.join "#{delim} ").join lf
