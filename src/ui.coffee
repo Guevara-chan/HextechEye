@@ -4,7 +4,6 @@ Function::getter= (name, proc)		-> Reflect.defineProperty @prototype, name, {get
 Function::setter= (name, proc)		-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
 Map::bump		= (key, step = 1)	-> @set key, (if (val = @get key)? then val + step else 1)
 Array::compress	= ()				-> @reduce (accum, arr) -> accum.concat arr
-String::capitalize	= ()			-> @charAt(0).toUpperCase() + @slice 1
 Function::new_branch = (name, body) -> @getter name, -> new BranchProxy @, body
 BranchProxy		= (root, body)		-> # Auxilary proc for new_branch.
 	Object.setPrototypeOf (new Proxy body, 
@@ -53,7 +52,7 @@ class Stat
 				@champions if @champions.size
 
 	desc: (champ) ->
-		if data = @champions.get(champ) then "WR: #{data.winrate}%; #{data.roles.join(', ')}" else ''
+		if data = @champions.get(champ) then "WR: #{data.winrate}% ⇐ #{data.roles.join ', '}" else ''
 
 	recommend: (bans, team, foes, lanesort = true) ->
 		# Primary setup.
