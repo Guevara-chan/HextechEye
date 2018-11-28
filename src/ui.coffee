@@ -3,6 +3,7 @@
 Function::getter= (name, proc)		-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
 Function::setter= (name, proc)		-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
 Map::bump		= (key, step = 1)	-> @set key, (if (val = @get key)? then val + step else 1)
+Array::last		= ()				-> @[@length-1]
 Array::compress	= ()				-> @reduce (accum, arr) -> accum.concat arr
 Function::new_branch = (name, body) -> @getter name, -> new BranchProxy @, body
 BranchProxy		= (root, body)		-> # Auxilary proc for new_branch.
@@ -88,7 +89,7 @@ class Stat
 	@setter 'json', (val)	-> @champions = new Map JSON.parse val
 # -------------------- #
 class CSV extends Array
-	header	= '[HextechEye v0.02]'
+	header = '[HextechEye v0.02]'
 
 	# --Methods goes here.
 	constructor: (feed...) ->
@@ -103,7 +104,7 @@ class CSV extends Array
 	@parse: (text, delim = ",") ->
 		throw new TypeError('invalid CSV data provided') unless text.split(/\r?\n/)[0] is header
 		[result, accum, quoted] = [new CSV(), '', false]
-		accept = => result[result.length-1].push accum.trim(); accum = ''
+		accept = => result.last.push accum.trim(); accum = ''
 		for char in text + delim
 			switch char
 				when delim
