@@ -102,7 +102,7 @@ class CSV extends Array
 		super ...accum
 
 	@parse: (text, delim = ",") ->
-		throw new TypeError('invalid CSV data provided') unless text.split(/\r?\n/)[0] is header
+		throw new TypeError('invalid CSV data provided') unless text.split(/\r?\n/)[0].trim() is header
 		[result, accum, quoted] = [new CSV(), '', false]
 		accept = => result.last.push accum.trim(); accum = ''
 		for char in text + delim
@@ -117,7 +117,7 @@ class CSV extends Array
 		result
 		
 	toString: (delim = ',', lf = '\r\n') ->
-		restricted = new RegExp "\r|\n|#{delim}"
+		restricted = new RegExp "\\r|\\n|#{delim}"
 		"#{header}#{lf}" + @.map((line) =>
 				line.map((entry) -> if entry.match restricted then "\"#{entry}\"" else entry).join "#{delim} "
 		).join lf
