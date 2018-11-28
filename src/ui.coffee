@@ -3,7 +3,6 @@
 Function::getter= (name, proc)		-> Reflect.defineProperty @prototype, name, {get: proc, configurable: true}
 Function::setter= (name, proc)		-> Reflect.defineProperty @prototype, name, {set: proc, configurable: true}
 Map::bump		= (key, step = 1)	-> @set key, (if (val = @get key)? then val + step else 1)
-Array::last		= ()				-> @[@length-1]
 Array::compress	= ()				-> @reduce (accum, arr) -> accum.concat arr
 Function::new_branch = (name, body) -> @getter name, -> new BranchProxy @, body
 BranchProxy		= (root, body)		-> # Auxilary proc for new_branch.
@@ -121,6 +120,9 @@ class CSV extends Array
 		"#{header}#{lf}" + @.map((line) =>
 				line.map((entry) -> if entry.match restricted then "\"#{entry}\"" else entry).join "#{delim} "
 		).join lf
+
+	# --Properties goes here.
+	@getter 'last', () -> @[@length-1]
 # -------------------- #
 class UI
 	stub		= "-----"
