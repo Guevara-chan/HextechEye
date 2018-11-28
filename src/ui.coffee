@@ -88,7 +88,7 @@ class Stat
 	@setter 'json', (val)	-> @champions = new Map JSON.parse val
 # -------------------- #
 class CSV extends Array
-	header	= "[HextechEye v0.02]"
+	header	= '[HextechEye v0.02]'
 
 	# --Methods goes here.
 	constructor: (feed...) ->
@@ -101,7 +101,7 @@ class CSV extends Array
 		super ...accum
 
 	@parse: (text, delim = ",") ->
-		throw new TypeError("invalid CSV data provided") unless text.split(/\r?\n/)[0] is header
+		throw new TypeError('invalid CSV data provided') unless text.split(/\r?\n/)[0] is header
 		[result, accum, quoted] = [new CSV(), '', false]
 		accept = => result[result.length-1].push accum.trim(); accum = ''
 		for char in text + delim
@@ -110,13 +110,16 @@ class CSV extends Array
 					if quoted then accum += char else accept()
 				when '\n', '\r\n'
 					if quoted then accum += char else accept(); result.push []
-				when '\"'
+				when '"'
 					quoted = not quoted
 				else accum += char
 		result
 		
-	toString: (delim = ",", lf = "\r\n") ->		
-		"#{header}#{lf}" + @.map((line) => line.join "#{delim} ").join lf
+	toString: (delim = ',', lf = '\r\n') ->
+		restricted = new RegExp "\r|\n|#{delim}"
+		"#{header}#{lf}" + @.map((line) =>
+				line.map((entry) -> if entry.match restricted then "\"#{entry}\"" else entry).join "#{delim} "
+		).join lf
 # -------------------- #
 class UI
 	stub		= "-----"
