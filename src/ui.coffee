@@ -89,13 +89,10 @@ class Stat
 # -------------------- #
 class CSV extends Array
 	header	= "[HextechEye v0.02]"
-	delim	= ","
-	lf:		"\r\n"
 
 	# --Methods goes here.
 	constructor: (feed...) ->
-		accum	= []
-		line	= []
+		[accum, line] = [[], []]
 		for chunk in feed				
 			if Array.isArray chunk	then line = line.concat [...chunk]
 			else if not chunk?		then accum.push line; line = []
@@ -103,12 +100,23 @@ class CSV extends Array
 		accum.push line
 		super ...accum
 
-	@parse: (text) ->
-		throw new TypeError("invalid CSV data provided") unless (lines = text.split /\r?\n/)[0] is header
-		new CSV().pop().concat lines[1..].map((line) -> line.split(delim).map (chunk) -> chunk.trim())
+	@parse: (text, delim = ",") ->
+		throw new TypeError("invalid CSV data provided") unless text.split(/\r?\n/)[0] is header
+		[result, accum, quoted] = [new CSV(), '', false]
+		accept = => result[result.length-1].push accum.trim(); accum = ''
+		for char in text + delim
+			switch char
+				when delim
+					if quoted then accum += char else accept()
+				when '\n', '\r\n'
+					if quoted then accum += char else accept(); result.push []
+				when '\"'
+					quoted = not quoted
+				else accum += char
+		result
 		
-	toString: () ->
-		"#{header}#{@lf}" + @.map((line) => line.join "#{delim} ").join @lf
+	toString: (delim = ",", lf = "\r\n") ->		
+		"#{header}#{lf}" + @.map((line) => line.join "#{delim} ").join lf
 # -------------------- #
 class UI
 	stub		= "-----"
@@ -144,7 +152,7 @@ class UI
 			sel.setAttribute 'class', 'selector'
 			sel.innerHTML	= @name2option()
 			sel.style.color	= ctable[factor]
-			sel.addEventListener 'change', @on.change
+			sel.addEventListener 'change', @on.change			
 			wrap = document.createElement('div')
 			wrap.style.display = "inline-block"
 			wrap.appendChild sel
@@ -216,7 +224,7 @@ class UI
 		[@out.innerHTML, @out.value] = [val.map(@name2option).join(''), if val.length then escape(val[0]) else ""]
 	@getter 'csv', ()			->
 		new CSV ...((["[#{line[0]}]", line[1], null] for line from @fields).compress()), '[best]', @advices
-	@setter 'csv', (val)		-> @fields = @feed new Map(CSV.parse(val)[0..2].map (arr) -> [arr[0][1..-2], arr[1..]])
+	@setter 'csv', (val)		-> @fields = new Map(CSV.parse(val)[1..3].map (arr) -> [arr[0][1..-2], arr[1..]])
 	@getter 'prognosis', ()		-> @db.recommend ...(@fetch(row) for row in row_names), @in.lanesort.checked
 #.} [Classes]
 
