@@ -142,6 +142,8 @@ class UI
 		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sync
 		for proc, idx in [@on.copy, @on.paste, @on.clear.bind @, null]
 			document.getElementById(['copy', 'paste', 'clear_all'][idx]).addEventListener 'click', proc
+		document.addEventListener 'copy', @on.copy
+		document.addEventListener 'paste', @on.paste
 		# Error handlers setup.
 		window.onerror = (msg, url, ln, col, e) ->
 			console.error e
