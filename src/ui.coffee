@@ -155,6 +155,8 @@ class UI
 		rows	= (document.getElementById row for row in row_names)
 		ctable	= ['crimson', 'cyan', 'coral']
 		@cache	= new Map([['',@name2option()]].concat([name,@name2option(name)] for name from @db.champions.keys()))
+
+		navigator.permissions.query({name: 'clipboard-read'})
 		# Rows filling.
 		for idx in [2..20] # 4 team slots, 10 ban slots, 5 foe slots.
 			sel = document.createElement('select')
