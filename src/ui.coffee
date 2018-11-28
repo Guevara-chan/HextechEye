@@ -179,6 +179,7 @@ class UI
 		@on.change()
 		document.getElementById('stub').style.visibility = 'hidden'
 		document.getElementById('ui').style.visibility = 'visible'
+		console.log @csv
 
 	reset: (row_name) ->
 		for row in (if row_name then [row_name] else row_names)
