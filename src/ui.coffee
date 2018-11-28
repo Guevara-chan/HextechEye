@@ -21,7 +21,7 @@ class Stat
 	url2doc: (path) ->
 		fetch("#{if process?.type then '' else 'https://cors.io/?'}http://www.leagueofgraphs.com" + path)
 		.then (resp) -> resp.text()
-		.then (html) -> (new DOMParser).parseFromString(html, 'text/html')#.documentElement
+		.then (html) -> (new DOMParser).parseFromString(html, 'text/html')
 
 	load: () ->
 		@url2doc('/ru/champions/counters').then ((doc) -> # Getting page itself to parse.
@@ -205,6 +205,7 @@ class UI
 	feed: (src) ->
 		@reset()
 		for name, line of @in
+			console.log name
 			line[pos].value = escape entry for entry, pos in src.get name
 
 	name2option: (name = stub) ->
