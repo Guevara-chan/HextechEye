@@ -11,8 +11,8 @@ BranchProxy		= (root, body)		-> # Auxilary proc for new_branch.
 
 #.{ [Classes]
 class Stat
-	cache_key	= "HextechEye_cache[0.02]"
-	stamp_key	= cache_key + ":date"
+	cache_key	= 'HextechEye_cache[0.03]'
+	stamp_key	= cache_key + ':date'
 
 	# --Methods goes here.
 	constructor: () ->
@@ -21,22 +21,23 @@ class Stat
 	url2doc: (path) ->
 		fetch("#{if process?.type then '' else 'https://cors.io/?'}http://www.leagueofgraphs.com" + path)
 		.then (resp) -> resp.text()
-		.then (html) -> (new DOMParser).parseFromString(html, "text/html")#.documentElement
+		.then (html) -> (new DOMParser).parseFromString(html, 'text/html')#.documentElement
 
 	load: () ->
-		@url2doc("/ru/champions/counters").then ((doc) -> # Getting page itself to parse.
+		@url2doc('/ru/champions/counters').then ((doc) -> # Getting page itself to parse.
 			# Preinit.
 			@champions = new Map
 			# Main parsing loop.
-			rows = doc.querySelector(".data_table").querySelectorAll("tr")				 # Extarcting all table rows.
-			await Promise.all (for entry in rows when entry = entry.querySelector "td"	 # Parsing all non-empty entris.
-				@champions.set entry.querySelector("img").getAttribute("title"), data={} # Adding champ to listing.
-				data.roles = entry.querySelector("i").innerText.trim().split(", ")		 # Fetching recommended roles.
-				@url2doc(entry.querySelector("a").getAttribute "href").then ((rec) ->	 # Parsing recommendations page.
-					for table, idx in rec.querySelectorAll(".data_table.sortable_table") # Parsing underlying tables.
+			rows = doc.querySelector('.data_table').querySelectorAll('tr')				 # Extarcting all table rows.
+			await Promise.all (for entry in rows when entry = entry.querySelector 'td'	 # Parsing all non-empty entris.
+				@champions.set entry.querySelector('img').getAttribute('title'), data={} # Adding champ to listing.
+				data.roles = entry.querySelector('i').innerText.trim().split(', ')		 # Fetching recommended roles.
+				data.winrate = parseFloat entry.parentElement.querySelector('.text-center').innerText # Winrate grabbing
+				@url2doc(entry.querySelector('a').getAttribute 'href').then ((rec) ->	 # Parsing recommendations page.
+					for table, idx in rec.querySelectorAll('.data_table.sortable_table') # Parsing underlying tables.
 						@[['allies', 'victims', 'nemesises'][idx]] = 					 # Parsing tables to 3 lists.
-							for entry in table.querySelectorAll "tr" when entry = entry.querySelector "img" # Checking.
-								entry.getAttribute "title"								 # Register champ name.
+							for entry in table.querySelectorAll "tr" when entry = entry.querySelector 'img' # Checking.
+								entry.getAttribute 'title'								 # Register champ name.
 				).bind data
 			)
 			# Storing data for later usage.
@@ -51,7 +52,7 @@ class Stat
 				@champions if @champions.size
 
 	desc: (champ) ->
-		if data = @champions.get(champ) then data.roles.join ', ' else ''
+		if data = @champions.get(champ) then "WR: #{data.winrate}%; #{data.roles.join ', '}" else ''
 
 	recommend: (bans, team, foes, lanesort = true) ->
 		# Primary setup.
@@ -80,15 +81,15 @@ class Stat
 		[...recom].filter((x) -> x[1] > 0).sort((a, b) -> b[1] - a[1])[...15].map (sub) -> sub[0]
 		
 	# --Properties goes here.
-	@getter 'cache', ()		-> localStorage.getItem(cache_key)
-	@setter 'cache', (val)	-> localStorage.setItem(cache_key, val)
-	@getter 'stamp', ()		-> localStorage.getItem(stamp_key)
-	@setter 'stamp', (val)	-> localStorage.setItem(stamp_key, val)
+	@getter 'cache', ()		-> localStorage.getItem cache_key
+	@setter 'cache', (val)	-> localStorage.setItem cache_key, val
+	@getter 'stamp', ()		-> localStorage.getItem stamp_key
+	@setter 'stamp', (val)	-> localStorage.setItem stamp_key, val
 	@getter 'json', ()		-> JSON.stringify [...@champions]
 	@setter 'json', (val)	-> @champions = new Map JSON.parse val
 # -------------------- #
 class CSV extends Array
-	header = '[HextechEye v0.02]'
+	header = '[HextechEye v0.03]'
 
 	# --Methods goes here.
 	constructor: (feed...) ->
@@ -125,7 +126,7 @@ class CSV extends Array
 	@getter 'last', () -> @[@length-1]
 # -------------------- #
 class UI
-	stub		= "-----"
+	stub		= '-----'
 	row_names	= ['bans', 'team', 'foes']
 
 	# --Methods goes here.
