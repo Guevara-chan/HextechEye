@@ -137,6 +137,7 @@ class UI
 		@in		= {team: [], bans: [], foes: []}
 		# Additional setup.
 		@out.addEventListener 'change', @on.overtouch
+		Reflect.defineProperty @in, 'lanesort', {writable: true} # Required fix.
 		(@in.lanesort = document.getElementById('lanesort')).addEventListener 'change', @on.sync
 		for proc, idx in [@on.copy, @on.paste, @on.clear.bind @, null]
 			document.getElementById(['copy', 'paste', 'clear_all'][idx]).addEventListener 'click', proc
@@ -203,7 +204,7 @@ class UI
 	feed: (src) ->
 		@reset()
 		for name, line of @in
-			line[pos].value = escape(entry) for entry, pos in src.get name
+			line[pos].value = escape entry for entry, pos in src.get name
 
 	name2option: (name = stub) ->
 		"<option value='#{escape(name)}'>#{name}</option>"
