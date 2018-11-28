@@ -30,9 +30,9 @@ class Stat
 			# Main parsing loop.
 			rows = doc.querySelector('.data_table').querySelectorAll('tr')				 # Extarcting all table rows.
 			await Promise.all (for entry in rows when entry = entry.querySelector 'td'	 # Parsing all non-empty entris.
-				@champions.set entry.querySelector('img').getAttribute('title'), data={} # Adding champ to listing.
-				data.roles = entry.querySelector('i').innerText.trim().split(', ')		 # Fetching recommended roles.
-				data.winrate = parseFloat entry.parentElement.querySelector('.text-center').innerText # Winrate grabbing
+				@champions.set entry.querySelector('img').getAttribute('title'), data=	 # Adding champ to listing.
+					roles: entry.querySelector('i').innerText.trim().split(', ')		 # Fetching recommended roles.
+					winrate: parseFloat entry.parentElement.querySelector('.text-center').innerText # Winrate grabbing/
 				@url2doc(entry.querySelector('a').getAttribute 'href').then ((rec) ->	 # Parsing recommendations page.
 					for table, idx in rec.querySelectorAll('.data_table.sortable_table') # Parsing underlying tables.
 						@[['allies', 'victims', 'nemesises'][idx]] = 					 # Parsing tables to 3 lists.
@@ -46,6 +46,7 @@ class Stat
 		).bind @
 
 	reload: () ->
+		return false
 		try
 			if @stamp and (Date.now() - @stamp) / (24*60*60*1000) < 3
 				@json = @cache
