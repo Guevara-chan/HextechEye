@@ -143,7 +143,8 @@ class UI
 		for proc, idx in [@on.copy, @on.paste, @on.clear.bind @, null]
 			document.getElementById(['copy', 'paste', 'clear_all'][idx]).addEventListener 'click', proc
 		document.addEventListener 'copy', @on.copy
-		document.addEventListener 'paste', @on.paste
+		document.addEventListener 'paste', if 'Firefox' in navigator.userAgent then(# Special fixes for Mozilla.
+			(e) -> @csv = e.clipboardData.getData 'Text').bind @ else @on.paste
 		# Error handlers setup.
 		window.onerror = (msg, url, ln, col, e) ->
 			console.error e
@@ -154,7 +155,7 @@ class UI
 		# Initial setup.
 		rows	= (document.getElementById row for row in row_names)
 		ctable	= ['crimson', 'cyan', 'coral']
-		@cache	= new Map([['',@name2option()]].concat([name,@name2option(name)] for name from @db.champions.keys()))
+		@cache	= new Map([['', @name2option()]].concat([name, @name2option(name)] for name from @db.champions.keys()))
 		# Rows filling.
 		for idx in [2..20] # 4 team slots, 10 ban slots, 5 foe slots.
 			sel = document.createElement('select')
