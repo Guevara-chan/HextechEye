@@ -10,7 +10,7 @@ Powered by [LeagueGraphs](http://www.leagueofgraphs.com) and [CoffeeScript v2](h
 
 # ⋮Compatibility⋮
 __HextechEye__  was best tested with _Chrome 70_ and [Electron](https://electronjs.org/), which is used to develop it.  
-Support for _Mozilla Firefox_ is mostly established, except for some UI disambiguation and [fixes](http://kb.mozillazine.org/Granting_JavaScript_access_to_the_clipboard) required to enable pasting.  
+Support for _Mozilla Firefox_ is mostly established, except for some UI disambiguation and [fixes](http://kb.mozillazine.org/Granting_JavaScript_access_to_the_clipboard) required to enable 'paste' btn.  
 _Edge_ is generally broken beyond any hopes and not currently meant to be used with this webapp.
 
 # ⋮Brief sampling of nowadays meta⋮
