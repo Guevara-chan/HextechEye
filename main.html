@@ -18,8 +18,8 @@
 			select:focus{outline: none; animation: shining .8s infinite;}
 			a:hover {text-shadow: 0 0 2px orange, 0 0 1em red; transition: .5s}
 
-			input[type=checkbox] {display: none}
-			input[type=checkbox] + label:before {content: "■"; height: 10px; width: 10px; background-color: rgba(0, 0, 0, 0.7); border: 2px dashed yellowgreen; color: transparent; font-size: 13px; line-height: 6px; cursor: pointer; display: inline-block; transform: translateY(-2px); transition: .4s}
+			input[type=checkbox]::-ms-check {display: none}
+			input[type=checkbox]::-ms-check + label:before {content: "■"; height: 10px; width: 10px; background-color: rgba(0, 0, 0, 0.7); border: 2px dashed yellowgreen; color: transparent; font-size: 13px; line-height: 6px; cursor: pointer; display: inline-block; transform: translateY(-2px); transition: .4s}
 
 			input[type=checkbox]:checked + label:before {color: lawngreen; border-color: green;}
 			input[type=checkbox]:hover + label:before {background: green;}
@@ -27,10 +27,10 @@
             .centerer {display: flex; position: absolute; top: 0; bottom: 0; right: 0; left: 0;}
 			.block {margin: auto; width: 50%;}
 			.group {border-radius: 2px; margin: 0 3px; box-shadow: 0 0 6px}
-			.caption{font-family: Oswald; text-shadow: 0 0 3px gray; border-radius: 3px; cursor: default;}
+			.caption {font-family: Oswald; text-shadow: 0 0 3px gray; border-radius: 3px;}
 			.selector {background: rgba(255, 255, 255, 0.05); text-align-last:center; font-family: Crimson; font-size: 15px; margin: 1px; box-shadow: 0 0 3px darkslategray; appearance: none; vertical-align: middle; border: 1px solid darkgray; height: 24px}
-			.bar {text-shadow: 0 0 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px; cursor: default;}
-			.interlight {background: rgba(130, 130, 130, 0.05); cursor: default; display: inline-block;}
+			.bar {text-shadow: 0 0 3px #222222; background: rgba(255, 255, 255, 0.4); text-align: center; font-family: Roboto; font-size: 14px;}
+			.interlight {background: rgba(130, 130, 130, 0.05); display: inline-block;}
 			.flat_btn {font-family: Oswald; font-size: 11px; cursor: pointer; border: white 1px solid; display: inline-block; transition: .2s}
 			.eraser {position: absolute; width: 28px; left: calc(75% - 36px); padding: 0 2px; transform: translateY(21px); border-right: 0; border-bottom: 0; border-radius: 2px 0 0 0; box-shadow: 0 0 5px; opacity: 0.35;}
 			.main_btn {color: #002000; border-color: #002000; opacity: 0.9; background: rgba(0, 110, 0, 0.8); border-radius: 2px; padding: 0 2px; height: 15px; text-shadow: 0 0 4px greenyellow; box-shadow: 0 0 2px; margin: 0 1px;}
