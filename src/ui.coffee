@@ -19,7 +19,7 @@ class Stat
 		@ready = if @reload() then new Promise((resolve) -> resolve()) else @load()
 
 	url2doc: (path) ->
-		fetch("#{if process?.type then '' else 'https://cors.io/?'}http://www.leagueofgraphs.com" + path)
+		fetch("#{if process?.type then '' else 'https://api.codetabs.com/v1/proxy?quest='}http://www.leagueofgraphs.com" + path)
 		.then (resp) -> resp.text()
 		.then (html) -> (new DOMParser).parseFromString(html, 'text/html')
 
@@ -29,10 +29,10 @@ class Stat
 			@champions = new Map
 			# Main parsing loop.
 			rows = doc.querySelector('.data_table').querySelectorAll('tr')				 # Extarcting all table rows.
-			await Promise.all (for entry in rows when entry = entry.querySelector 'td'	 # Parsing all non-empty entris.
+			await Promise.all (for entry in rows when entry = entry.querySelector 'td.championCell'	 # Non-empty entries.
 				@champions.set entry.querySelector('img').getAttribute('title'), data=	 # Adding champ to listing.
 					roles: entry.querySelector('i').innerText.trim().split(', ')		 # Fetching recommended roles.
-					winrate: parseFloat entry.parentElement.querySelector('.text-center').innerText # Winrate grabbing/
+					winrate: parseFloat entry.parentElement.querySelector('.text-center').innerText # Winrate grabbing.
 				@url2doc(entry.querySelector('a').getAttribute 'href').then ((rec) ->	 # Parsing recommendations page.
 					for table, idx in rec.querySelectorAll('.data_table.sortable_table') # Parsing underlying tables.
 						@[['allies', 'victims', 'nemesises'][idx]] = 					 # Parsing tables to 3 lists.
